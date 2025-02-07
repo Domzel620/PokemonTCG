@@ -1,4 +1,7 @@
 public class Energy extends Card{
+    public Energy(){
+        setCardType("Energy");
+    }
     private String type;
     public String getType(){
         return type;

@@ -1,5 +1,8 @@
 
 public class Pokemon extends Card{
+    public Pokemon(){
+        setCardType("Pokemon");
+    }
     private int hp;
     private int attack;
     private int defense;
