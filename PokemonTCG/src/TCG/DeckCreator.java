@@ -7,6 +7,9 @@ import src.TCG.PokemonCards.PokemonCreatures.*;
 
 
 public class DeckCreator {
+    private ArrayList<Card> fire;
+    private ArrayList<Card> water;
+    private ArrayList<Card> electric;
     //Creates a fire deck filled with 20 charmander and 40 water energy
     public ArrayList<Card> createFireDeck(){
         ArrayList<Card> fireDeck = new ArrayList<Card>();
@@ -32,10 +35,10 @@ public class DeckCreator {
     //Creates an Electric deck filled with 20 Pikachu and 40 electric energy
     public ArrayList<Card> createElectricDeck(){
         ArrayList<Card> electricDeck = new ArrayList<Card>();
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 1; i++){
             electricDeck.add(new Pikachu());
         }
-        for(int i = 20; i < 60; i++){
+        for(int i = 1; i < 60; i++){
             electricDeck.add(new ElectricEnergy());
         }
         return electricDeck;
