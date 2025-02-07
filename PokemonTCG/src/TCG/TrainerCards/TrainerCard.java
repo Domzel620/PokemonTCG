@@ -1,3 +1,5 @@
+package src.TCG.TrainerCards;
+import src.TCG.Card;
 
 public class TrainerCard extends Card{
     public TrainerCard(){

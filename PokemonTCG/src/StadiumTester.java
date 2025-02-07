@@ -1,3 +1,6 @@
+package src;
+import src.TCG.PokemonCards.Pokemon;
+
 public class StadiumTester {
     
     public void battle(Pokemon p1, Pokemon p2){
