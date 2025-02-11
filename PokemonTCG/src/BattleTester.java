@@ -12,10 +12,11 @@ public class BattleTester {
         PokemonGame game = new PokemonGame();
         //battle.battle(coolGuy, hotGuy);
         ArrayList<Card> deck = deck1.createElectricDeck();
-        game.setDeck(deck);
+        /*game.setDeck(deck);
         deck = game.getDeck();
         game.shuffleDeck(deck);
         game.drawHand(deck);
-        game.printHand();
+        game.printHand();*/
+        deck1.createMonteDeck();
     }
 }
