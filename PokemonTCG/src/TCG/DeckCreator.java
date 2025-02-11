@@ -53,36 +53,6 @@ public class DeckCreator {
             i++;
         }
     }
-    public void createMonteDeck(){
-        PokemonGame draw = new PokemonGame();
-        
-
-            for(int i = 1; i < 60; i++){
-                ArrayList<Card> monteDeck = new ArrayList<Card>();
-                for(int k = 0; k < i; k++){
-                monteDeck.add(new Pikachu());
-                }
-                for(int j = i; j < 60; j++){
-                    monteDeck.add(new ElectricEnergy());
-                }
-                int p = 0;
-                int e = 0;
-                for(Card card : monteDeck){ 
-                    if (card instanceof Pokemon){
-                        p++;
-                    }else
-                        e++;
-                    }
-                    System.out.println("\n" + "Monte Deck " + i + " contains: ");
-                    System.out.println("Pokemon: " + p);
-                    System.out.println("Energy: " + e);
-                    draw.shuffleDeck(monteDeck);
-                    draw.drawHand(monteDeck);
-                    //create a check hand method instead that can be called in drawhand. Is not looping properly rn in drawhand
-                    //it only checks once and moves on
-                }
-                
-                
-            }
+    
     
 }

@@ -10,6 +10,7 @@ public class BattleTester {
         Charmander hotGuy = new Charmander();
         DeckCreator deck1 = new DeckCreator();
         PokemonGame game = new PokemonGame();
+        MonteDeckSimulation monteDeck = new MonteDeckSimulation();
         //battle.battle(coolGuy, hotGuy);
         ArrayList<Card> deck = deck1.createElectricDeck();
         /*game.setDeck(deck);
@@ -17,6 +18,6 @@ public class BattleTester {
         game.shuffleDeck(deck);
         game.drawHand(deck);
         game.printHand();*/
-        deck1.createMonteDeck();
+        monteDeck.createMonteDeck();
     }
 }

@@ -29,6 +29,7 @@ public class PokemonGame {
     public ArrayList<Card> getActive(){
         return active;
     }
+
     //Method used to draw 7 cards into the users hand.
     public void drawHand(ArrayList<Card> userDeck) {
         // Initialize hand
@@ -43,34 +44,11 @@ public class PokemonGame {
             userDeck.remove(i); 
         }
     
-        // Check if a Pokemon is in the hand
-        boolean hasPokemon = false;
-        for (Card card : hand) {
-            if (card instanceof Pokemon) {
-                System.out.println("Your hand has a pokemon");
-                hasPokemon = true;
-                break;
-            }
-        }
-    
-        // If you need to reshuffle and redraw (the current logic)
-        if (!hasPokemon) {
-            System.out.println("No Pokemon in this hand");
-            userDeck.addAll(hand);
-            hand.clear();  // Clear the hand
-    
-            // Shuffle deck
-            shuffleDeck(userDeck);
-    
-            // Redraw the hand
-            for (int i = 0; i < 7; i++) {
-                hand.add(userDeck.get(i));
-            }
-    
-            // Remove drawn cards from the deck
-            for (int i = 6; i >= 0; i--) {
-                userDeck.remove(i);
-            }
+        // Checks if a Pokemon is hand
+        boolean hasPokemon = checkHand(userDeck, hand);
+        //Loops until there is finally a hand with a pokemon in it.
+        while(hasPokemon == false){
+            hasPokemon = checkHand(userDeck, hand);
         }
     }
     
@@ -82,10 +60,40 @@ public class PokemonGame {
             i++; 
         }
     }
+
+
+    public boolean checkHand(ArrayList<Card> userDeck, ArrayList<Card> userHand){
+        for (Card card : hand) {
+            if (card instanceof Pokemon) {
+                System.out.println("Your hand has a pokemon");
+                //printHand();
+                return true;
+            } 
+        }
+        System.out.println("No Pokemon in this hand");
+        //printHand();
+        userDeck.addAll(hand);
+        hand.clear();   
+        shuffleDeck(userDeck);
     
+        // Redraws the hand
+        for (int i = 0; i < 7; i++) {
+            hand.add(userDeck.get(i));
+        }
+    
+        // Removes drawn cards from the deck
+        for (int i = 6; i >= 0; i--) {
+            userDeck.remove(i);
+        }
+        return false;
+    }
+    
+
     public void setDeck(ArrayList<Card> userDeck){
         deck = userDeck;
     }
+
+
     //This shuffles the users deck
     public void shuffleDeck(ArrayList<Card> userDeck){
         for(int i = userDeck.size()-1; i > 0; i--){
@@ -96,6 +104,7 @@ public class PokemonGame {
             userDeck.set(j, temp);
         }
     }
+
     //This draws the prize cards
     public void fillPrize(ArrayList<Card> userDeck){
         prize = new ArrayList<Card>();
