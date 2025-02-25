@@ -153,15 +153,21 @@ public class PokemonGame {
         }
         deckSelection.close();
         //Ask professor the benefit of using a switch here instead of the if statements
-        if(selection == 1){
-            System.out.println("You've Selected the Electric Deck!");
-            tempDeck = deck.createElectricDeck();
-        }else if(selection == 2){
-            System.out.println("You've Selected the Fire Deck!");
-            tempDeck = deck.createFireDeck();
-        }else if(selection == 3){
-            System.out.println("You've Selected the Water Deck!");
-            tempDeck = deck.createWaterDeck();
+        switch (selection) {
+            case 1:
+                System.out.println("You've Selected the Electric Deck!");
+                tempDeck = deck.createElectricDeck();
+                break;
+            case 2:
+                System.out.println("You've Selected the Fire Deck!");
+                tempDeck = deck.createFireDeck();
+                break;
+            case 3:
+                System.out.println("You've Selected the Water Deck!");
+                tempDeck = deck.createWaterDeck();
+                break;
+            default:
+                break;
         }
         return tempDeck;
     }
