@@ -2,10 +2,13 @@ package src.TCG;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Scanner;
 import src.TCG.PokemonCards.*;
+import src.TCG.DeckCreator;
 public class PokemonGame {
     private ArrayList<Card> hand;
-    private ArrayList<Card> deck;
+    private ArrayList<Card> playerOneDeck;
+    private ArrayList<Card> playerTwoDeck;
     private ArrayList<Card> prize;
     private ArrayList<Card> discard;
     private ArrayList<Card> bench;
@@ -14,8 +17,11 @@ public class PokemonGame {
     public ArrayList<Card> getHand(){
         return hand;
     }
-    public ArrayList<Card> getDeck(){
-        return deck;
+    public ArrayList<Card> getPlayerOneDeck(){
+        return playerOneDeck;
+    }
+    public ArrayList<Card> getPlayerTwoDeck(){
+        return playerTwoDeck;
     }
     public ArrayList<Card> getPrize(){
         return prize;
@@ -88,12 +94,6 @@ public class PokemonGame {
         }
         return false;
     }
-    
-
-    public void setDeck(ArrayList<Card> userDeck){
-        deck = userDeck;
-    }
-
 
     //This shuffles the users deck
     public void shuffleDeck(ArrayList<Card> userDeck){
@@ -120,6 +120,69 @@ public class PokemonGame {
         for(Card card : prize) {
             System.out.println(i + ". " + card.getClass().getSimpleName());
             i++; 
+        }
+    }
+    public void drawCard(ArrayList<Card> userHand, ArrayList<Card> userDeck){
+        userHand.add(userDeck.get(0));
+        userDeck.remove(0);
+    }
+
+    public boolean coinFlip(){
+        double coin = Math.random();
+        if(coin < 0.5){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+
+    //Prompts the player to select a deck type
+    public ArrayList<Card> chooseDeck(){
+        Scanner deckSelection = new Scanner(System.in);
+        ArrayList<Card> tempDeck = new ArrayList<>();
+        DeckCreator deck = new DeckCreator();
+        int selection;
+
+        System.out.println("Which Deck would you like to use?" + "\n 1. Electric" + "\n 2. Fire" + "\n 3. Water");
+        System.out.println("Please input one of the numbers above: ");
+        selection = deckSelection.nextInt();
+        while (selection > 3 || selection < 1){
+            System.out.println("Invalid Selection, please pick an option between 1-3!");
+                selection = deckSelection.nextInt();
+        }
+        deckSelection.close();
+        //Ask professor the benefit of using a switch here instead of the if statements
+        if(selection == 1){
+            System.out.println("You've Selected the Electric Deck!");
+            tempDeck = deck.createElectricDeck();
+        }else if(selection == 2){
+            System.out.println("You've Selected the Fire Deck!");
+            tempDeck = deck.createFireDeck();
+        }else if(selection == 3){
+            System.out.println("You've Selected the Water Deck!");
+            tempDeck = deck.createWaterDeck();
+        }
+        return tempDeck;
+    }
+
+    public void gameLoop(){
+        //Players Choose their Decks
+        System.out.println("Player 1, please create your deck and get set up");
+        playerOneDeck = chooseDeck();
+        shuffleDeck(playerOneDeck);
+        drawHand(playerOneDeck);
+        fillPrize(playerOneDeck);
+
+        System.out.println("Player 2, please create your deck and get set up");
+        playerTwoDeck = chooseDeck();
+        shuffleDeck(playerTwoDeck);
+        drawHand(playerTwoDeck);
+        fillPrize(playerTwoDeck);
+
+        boolean playOrder = coinFlip();
+        if(playOrder = true){
+             
         }
     }
     

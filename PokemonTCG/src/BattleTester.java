@@ -20,6 +20,7 @@ public class BattleTester {
         //game.fillPrize(deck);
         //game.printPrize();
        // monteDeck.createMonteDeck();
-       monteDeck.createMonteRare();
+       //monteDeck.createMonteRare();
+       game.chooseDeck();
     }
 }
