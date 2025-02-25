@@ -185,7 +185,7 @@ public class PokemonGame {
         return tempDeck;
     }
 
-
+    //Checks to See if a game over clause is in play
     public boolean gameOver(){
         boolean end;
         if (onePrize.size() < 1){
@@ -211,32 +211,71 @@ public class PokemonGame {
     public void playerOneFirst(){
         Scanner turn = new Scanner(System.in);
         boolean endCheck = gameOver();
-        while (endCheck = false){
-            System.out.println("Player 1 What is your move: ");
+        while (endCheck == false){
+            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             boolean endTurn = false;
-            while(endTurn = false){
+            while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
+                    // Call Attack Method
+                    System.out.println("You Attacked!");
+                        endTurn = true;
+                        break;
                     case 2:
+                    // Call Attach Energy Method
+                    System.out.println("You Attached an Energy. What else would you like to do?");
+                        break;
                     case 3:
+                    // Call Place Pokemon Method 
+                    System.out.println("You placed a Pokemon. What else would you like to do?");
+                        break;
                     case 4:
+                    // Call Evolve Method
+                    System.out.println("You Evolved your Pokemon. What else would you like to do?");
+                        break;
                     case 5:
+                        printHand(oneHand);
+                    case 6:
+                        System.out.println("You passed your turn!");
+                        endTurn = true;
+                        break;
                     default:
+                        System.out.println("Invalid Input Please pick one of the options above!");
+                        
                 }
             }
             endCheck = gameOver();
-            System.out.println("Player 2 what is your move: ");
+            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             endTurn = false;
-            while(endTurn = false){
+            while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
+                    // Call Attack Method
+                        System.out.println("You Attacked!");
+                        endTurn = true;
+                        break;
                     case 2:
+                    // Call Attach Energy Method
+                        System.out.println("You Attached an Energy. What else would you like to do?");
+                        break;
                     case 3:
+                    // Call Place Pokemon Method 
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        break;
                     case 4:
+                    // Call Evolve Method
+                        System.out.println("You Evolved your Pokemon. What else would you like to do?");
+                        break;
                     case 5:
+                        printHand(twoHand);
+                    case 6:
+                        System.out.println("You passed your turn!");
+                        endTurn = true;
+                        break;
                     default:
+                        System.out.println("Invalid Input Please pick one of the options above!");
                 }          
             }
             endCheck = gameOver();
@@ -248,32 +287,70 @@ public class PokemonGame {
     public void playerTwoFirst(){
         Scanner turn = new Scanner(System.in);
         boolean endCheck = gameOver();
-        while (endCheck = false){
-            System.out.println("Player 2 What is your move: ");
+        while (endCheck == false){
+            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. See Hand \n 6. Pass");
             boolean endTurn = false;
-            while(endTurn = false){
+            while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
+                    // Call Attack Method
+                        System.out.println("You Attacked!");
+                        endTurn = true;
+                        break;
                     case 2:
+                    // Call Attach Energy Method
+                        System.out.println("You Attached an Energy. What else would you like to do?");
+                        break;
                     case 3:
+                    // Call Place Pokemon Method 
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        break;
                     case 4:
+                    // Call Evolve Method
+                        System.out.println("You Evolved your Pokemon. What else would you like to do?");
+                        break;
                     case 5:
+                        printHand(twoHand);
+                    case 6:
+                        System.out.println("You passed your turn!");
+                        endTurn = true;
+                        break;
                     default:
+                        System.out.println("Invalid Input Please pick one of the options above!");
                 }
             }
             endCheck = gameOver();
-            System.out.println("Player 1 what is your move: ");
+            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             endTurn = false;
-            while(endTurn = false){
+            while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
+                    // Call Attack Method
+                        System.out.println("You Attacked!");
+                        endTurn = true;
+                        break;
                     case 2:
+                    // Call Attach Energy Method
+                        System.out.println("You Attached an Energy. What else would you like to do?");
+                        break;
                     case 3:
+                    // Call Place Pokemon Method 
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        break;
                     case 4:
-                    case 5:
+                    // Call Evolve Method
+                        System.out.println("You Evolved your Pokemon. What else would you like to do?");
+                        break;
+                    case 5: 
+                        printHand(oneHand);
+                    case 6:
+                        System.out.println("You passed your turn!");
+                        endTurn = true;
+                        break;
                     default:
+                        System.out.println("Invalid Input Please pick one of the options above!");
                 }          
             }
             endCheck = gameOver();
@@ -288,17 +365,19 @@ public class PokemonGame {
         oneHand = drawHand(playerOneDeck);
         onePrize = fillPrize(playerOneDeck);
 
-        System.out.println("Player 2, please create your deck and get set up");
+        System.out.println("\nPlayer 2, please create your deck and get set up");
         playerTwoDeck = chooseDeck();
         shuffleDeck(playerTwoDeck);
         twoHand = drawHand(playerTwoDeck);
         twoPrize = fillPrize(playerTwoDeck);
 
+
+        //Coin flip then game start.
         boolean playOrder = coinFlip();
-        if(playOrder = true){
+        if(playOrder == true){
             System.out.println("Player 1 is up first!");
             playerOneFirst();
-        }else if(playOrder = false){
+        }else if(playOrder == false){
             System.out.println("Player 2 is up first!");
             playerTwoFirst();
         }
