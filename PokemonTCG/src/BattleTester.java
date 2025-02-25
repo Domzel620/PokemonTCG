@@ -21,6 +21,6 @@ public class BattleTester {
         //game.printPrize();
        // monteDeck.createMonteDeck();
        //monteDeck.createMonteRare();
-       game.chooseDeck();
+       game.gameLoop();
     }
 }

@@ -67,7 +67,7 @@ public class PokemonGame {
         return hand;
     }
     
-    
+
     //This prints the users Hand
     public void printHand(ArrayList<Card> hand) {
         int i = 1;
@@ -165,7 +165,6 @@ public class PokemonGame {
             System.out.println("Invalid Selection, please pick an option between 1-3!");
                 selection = deckSelection.nextInt();
         }
-        deckSelection.close();
         //Ask professor the benefit of using a switch here instead of the if statements
         switch (selection) {
             case 1:
