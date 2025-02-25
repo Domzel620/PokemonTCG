@@ -55,6 +55,7 @@ public class PokemonGame {
     //This prints the users Hand
     public void printHand() {
         int i = 1;
+        System.out.println("\n" + "The cards in your hand: ");
         for(Card card : hand) {
             System.out.println(i + ". " + card.getClass().getSimpleName());
             i++; 
@@ -111,6 +112,14 @@ public class PokemonGame {
         for(int i = 0;  i < 7; i++){
             prize.add(userDeck.get(i));
             userDeck.remove(i);
+        }
+    }
+    public void printPrize(){
+        int i = 1;
+        System.out.println("\n" + "The Cards in your prize pool are: ");
+        for(Card card : prize) {
+            System.out.println(i + ". " + card.getClass().getSimpleName());
+            i++; 
         }
     }
     

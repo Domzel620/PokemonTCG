@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import src.TCG.EnergyCards.EnergyTypes.*;
 import src.TCG.PokemonCards.Pokemon;
 import src.TCG.PokemonCards.PokemonCreatures.*;
+import src.TCG.TrainerCards.TrainerCardTypes.RareCandy;
 import src.TCG.PokemonGame;
 
 
@@ -29,7 +30,10 @@ public class DeckCreator {
         for(int i = 0; i < 20; i++){
             waterDeck.add(new Squirtle());
         }
-        for(int i = 20; i < 60; i++){
+        for(int i = 20; i < 24; i++){
+            waterDeck.add(new RareCandy());
+        }
+        for(int i = 24; i < 60; i++){
             waterDeck.add(new WaterEnergy());
         }
         return waterDeck;

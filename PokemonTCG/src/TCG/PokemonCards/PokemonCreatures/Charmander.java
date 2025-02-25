@@ -1,5 +1,4 @@
 package src.TCG.PokemonCards.PokemonCreatures;
-
 import src.TCG.PokemonCards.Pokemon;
 
 public class Charmander extends Pokemon {
