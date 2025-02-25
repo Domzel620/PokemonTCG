@@ -6,16 +6,21 @@ import java.util.Scanner;
 import src.TCG.PokemonCards.*;
 import src.TCG.DeckCreator;
 public class PokemonGame {
-    private ArrayList<Card> hand;
+    private ArrayList<Card> oneHand;
+    private ArrayList<Card> twoHand;
     private ArrayList<Card> playerOneDeck;
     private ArrayList<Card> playerTwoDeck;
-    private ArrayList<Card> prize;
+    private ArrayList<Card> onePrize;
+    private ArrayList<Card> twoPrize;
     private ArrayList<Card> discard;
     private ArrayList<Card> bench;
     private ArrayList<Card> active;
     //Getters for the global variables above.
-    public ArrayList<Card> getHand(){
-        return hand;
+    public ArrayList<Card> getOneHand(){
+        return oneHand;
+    }
+    public ArrayList<Card> getTwoHand(){
+        return twoHand;
     }
     public ArrayList<Card> getPlayerOneDeck(){
         return playerOneDeck;
@@ -23,8 +28,11 @@ public class PokemonGame {
     public ArrayList<Card> getPlayerTwoDeck(){
         return playerTwoDeck;
     }
-    public ArrayList<Card> getPrize(){
-        return prize;
+    public ArrayList<Card> getOnePrize(){
+        return onePrize;
+    }
+    public ArrayList<Card> getTwoPrize(){
+        return onePrize;
     }
     public ArrayList<Card> getDiscard(){
         return discard;
@@ -37,9 +45,9 @@ public class PokemonGame {
     }
 
     //Method used to draw 7 cards into the users hand.
-    public void drawHand(ArrayList<Card> userDeck) {
+    public ArrayList<Card> drawHand(ArrayList<Card> userDeck) {
         // Initialize hand
-        hand = new ArrayList<Card>();
+        ArrayList<Card> hand = new ArrayList<Card>();
         
         // Draw 7 cards
         for (int i = 0; i < 7; i++) {
@@ -56,10 +64,12 @@ public class PokemonGame {
         while(hasPokemon == false){
             hasPokemon = checkHand(userDeck, hand);
         }
+        return hand;
     }
     
+    
     //This prints the users Hand
-    public void printHand() {
+    public void printHand(ArrayList<Card> hand) {
         int i = 1;
         System.out.println("\n" + "The cards in your hand: ");
         for(Card card : hand) {
@@ -70,7 +80,7 @@ public class PokemonGame {
 
 
     public boolean checkHand(ArrayList<Card> userDeck, ArrayList<Card> userHand){
-        for (Card card : hand) {
+        for (Card card : userHand) {
             if (card instanceof Pokemon) {
                 System.out.println("Your hand has a pokemon");
                 //printHand();
@@ -79,13 +89,13 @@ public class PokemonGame {
         }
         System.out.println("No Pokemon in this hand");
         //printHand();
-        userDeck.addAll(hand);
-        hand.clear();   
+        userDeck.addAll(userHand);
+        userHand.clear();   
         shuffleDeck(userDeck);
     
         // Redraws the hand
         for (int i = 0; i < 7; i++) {
-            hand.add(userDeck.get(i));
+            userHand.add(userDeck.get(i));
         }
     
         // Removes drawn cards from the deck
@@ -94,6 +104,7 @@ public class PokemonGame {
         }
         return false;
     }
+
 
     //This shuffles the users deck
     public void shuffleDeck(ArrayList<Card> userDeck){
@@ -106,18 +117,20 @@ public class PokemonGame {
         }
     }
 
+
     //This draws the prize cards
-    public void fillPrize(ArrayList<Card> userDeck){
-        prize = new ArrayList<Card>();
+    public ArrayList<Card> fillPrize(ArrayList<Card> userDeck){
+        ArrayList<Card> userPrize = new ArrayList<Card>();
         for(int i = 0;  i < 7; i++){
-            prize.add(userDeck.get(i));
+            userPrize.add(userDeck.get(i));
             userDeck.remove(i);
         }
+        return userPrize;
     }
-    public void printPrize(){
+    public void printPrize(ArrayList<Card> userPrize){
         int i = 1;
         System.out.println("\n" + "The Cards in your prize pool are: ");
-        for(Card card : prize) {
+        for(Card card : userPrize) {
             System.out.println(i + ". " + card.getClass().getSimpleName());
             i++; 
         }
@@ -136,6 +149,7 @@ public class PokemonGame {
         }
         
     }
+
 
     //Prompts the player to select a deck type
     public ArrayList<Card> chooseDeck(){
@@ -172,23 +186,122 @@ public class PokemonGame {
         return tempDeck;
     }
 
+
+    public boolean gameOver(){
+        boolean end;
+        if (onePrize.size() < 1){
+            System.out.println("Player 1 Wins!");
+            end = true; 
+        } else if (twoPrize.size() < 1){
+            System.out.println("Player 2 Wins!");
+            end = true;
+        } else if (playerOneDeck.size() < 1){
+            System.out.println("Player 2 Wins!");
+            end = true;
+        } else if (playerTwoDeck.size() < 1){
+            System.out.println("Player 1 Wins!");
+            end = true;
+        } else {
+            end = false;
+        }
+        return end;
+    }
+
+
+    //Code for when Player 1 wins the coinflip
+    public void playerOneFirst(){
+        Scanner turn = new Scanner(System.in);
+        boolean endCheck = gameOver();
+        while (endCheck = false){
+            System.out.println("Player 1 What is your move: ");
+            boolean endTurn = false;
+            while(endTurn = false){
+                int move = turn.nextInt();
+                switch (move){
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    default:
+                }
+            }
+            endCheck = gameOver();
+            System.out.println("Player 2 what is your move: ");
+            endTurn = false;
+            while(endTurn = false){
+                int move = turn.nextInt();
+                switch (move){
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    default:
+                }          
+            }
+            endCheck = gameOver();
+        }
+    }
+
+
+    //Code for when Player 2 wins the coin flip
+    public void playerTwoFirst(){
+        Scanner turn = new Scanner(System.in);
+        boolean endCheck = gameOver();
+        while (endCheck = false){
+            System.out.println("Player 2 What is your move: ");
+            boolean endTurn = false;
+            while(endTurn = false){
+                int move = turn.nextInt();
+                switch (move){
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    default:
+                }
+            }
+            endCheck = gameOver();
+            System.out.println("Player 1 what is your move: ");
+            endTurn = false;
+            while(endTurn = false){
+                int move = turn.nextInt();
+                switch (move){
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    default:
+                }          
+            }
+            endCheck = gameOver();
+        }
+    }
+
     public void gameLoop(){
         //Players Choose their Decks
         System.out.println("Player 1, please create your deck and get set up");
         playerOneDeck = chooseDeck();
         shuffleDeck(playerOneDeck);
-        drawHand(playerOneDeck);
-        fillPrize(playerOneDeck);
+        oneHand = drawHand(playerOneDeck);
+        onePrize = fillPrize(playerOneDeck);
 
         System.out.println("Player 2, please create your deck and get set up");
         playerTwoDeck = chooseDeck();
         shuffleDeck(playerTwoDeck);
-        drawHand(playerTwoDeck);
-        fillPrize(playerTwoDeck);
+        twoHand = drawHand(playerTwoDeck);
+        twoPrize = fillPrize(playerTwoDeck);
 
         boolean playOrder = coinFlip();
         if(playOrder = true){
-             
+            System.out.println("Player 1 is up first!");
+            playerOneFirst();
+        }else if(playOrder = false){
+            System.out.println("Player 2 is up first!");
+            playerTwoFirst();
         }
     }
     
