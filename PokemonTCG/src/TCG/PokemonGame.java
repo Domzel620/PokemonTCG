@@ -3,6 +3,7 @@ package src.TCG;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Scanner;
+import javax.swing.text.AbstractDocument;
 import src.TCG.PokemonCards.*;
 import src.TCG.DeckCreator;
 public class PokemonGame {
@@ -14,7 +15,8 @@ public class PokemonGame {
     private ArrayList<Card> twoPrize;
     private ArrayList<Card> discard;
     private ArrayList<Card> bench;
-    private ArrayList<Card> active;
+    private ArrayList<Card> oneActive;
+    private ArrayList<Card> twoActive;
     //Getters for the global variables above.
     public ArrayList<Card> getOneHand(){
         return oneHand;
@@ -40,9 +42,13 @@ public class PokemonGame {
     public ArrayList<Card> getBench(){
         return bench;
     }
-    public ArrayList<Card> getActive(){
-        return active;
+    public ArrayList<Card> getOneActive(){
+        return oneActive;
     }
+    public ArrayList<Card> getTwoActive(){
+        return oneActive;
+    }
+
 
     //Method used to draw 7 cards into the users hand.
     public ArrayList<Card> drawHand(ArrayList<Card> userDeck) {
@@ -135,11 +141,16 @@ public class PokemonGame {
             i++; 
         }
     }
+
+
+    //Draw Card Method
     public void drawCard(ArrayList<Card> userHand, ArrayList<Card> userDeck){
         userHand.add(userDeck.get(0));
         userDeck.remove(0);
     }
 
+
+    //Method for Coinflip method
     public boolean coinFlip(){
         double coin = Math.random();
         if(coin < 0.5){
@@ -206,14 +217,36 @@ public class PokemonGame {
         return end;
     }
 
+    //NOT COMPLETE
+    public ArrayList<Card> placeActive(ArrayList<Card> userHand, ArrayList<Card> userActive){
+        Scanner select = new Scanner(System.in);
+        ArrayList<Card> temp = userHand;
+        printHand(userHand);
+        System.out.println("Which Pokemon would you like to play?");
+        int choice = select.nextInt();
+        
+        
+        
+            userActive.add(temp.get(choice));
+            userHand.remove(choice);
+            return userActive;
+        }
+        
+    public int Attack(ArrayList<Card> oneActive, ArrayList<Card> twoActive){
+        int hp = 0;//placeholder 
+        return hp;
+    }
+
+
 
     //Code for when Player 1 wins the coinflip
     public void playerOneFirst(){
         Scanner turn = new Scanner(System.in);
         boolean endCheck = gameOver();
         while (endCheck == false){
-            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
+            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Active Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             boolean endTurn = false;
+            drawCard(oneHand, playerOneDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -227,8 +260,10 @@ public class PokemonGame {
                     System.out.println("You Attached an Energy. What else would you like to do?");
                         break;
                     case 3:
-                    // Call Place Pokemon Method 
-                    System.out.println("You placed a Pokemon. What else would you like to do?");
+                    // Call Place Active Pokemon Method 
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        oneActive = placeActive(oneHand, oneActive);
+                        System.out.println("ACTIVE: " + oneActive);
                         break;
                     case 4:
                     // Call Evolve Method
@@ -236,6 +271,7 @@ public class PokemonGame {
                         break;
                     case 5:
                         printHand(oneHand);
+                        break;
                     case 6:
                         System.out.println("You passed your turn!");
                         endTurn = true;
@@ -248,6 +284,7 @@ public class PokemonGame {
             endCheck = gameOver();
             System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             endTurn = false;
+            drawCard(twoHand, playerTwoDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -270,6 +307,7 @@ public class PokemonGame {
                         break;
                     case 5:
                         printHand(twoHand);
+                        break;
                     case 6:
                         System.out.println("You passed your turn!");
                         endTurn = true;
@@ -282,7 +320,7 @@ public class PokemonGame {
         }
     }
 
-
+    
     //Code for when Player 2 wins the coin flip
     public void playerTwoFirst(){
         Scanner turn = new Scanner(System.in);
@@ -290,6 +328,7 @@ public class PokemonGame {
         while (endCheck == false){
             System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. See Hand \n 6. Pass");
             boolean endTurn = false;
+            drawCard(oneHand, playerOneDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -312,6 +351,7 @@ public class PokemonGame {
                         break;
                     case 5:
                         printHand(twoHand);
+                        break;
                     case 6:
                         System.out.println("You passed your turn!");
                         endTurn = true;
@@ -323,6 +363,7 @@ public class PokemonGame {
             endCheck = gameOver();
             System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
             endTurn = false;
+            drawCard(oneHand, playerOneDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -345,6 +386,7 @@ public class PokemonGame {
                         break;
                     case 5: 
                         printHand(oneHand);
+                        break;
                     case 6:
                         System.out.println("You passed your turn!");
                         endTurn = true;
