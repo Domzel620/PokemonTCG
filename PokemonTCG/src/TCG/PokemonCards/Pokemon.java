@@ -5,6 +5,7 @@ import src.TCG.Card;
 public class Pokemon extends Card{
     public Pokemon(){
         setCardType("Pokemon");
+        energyBank = new ArrayList<>();
     }
     private int hp;
     private String type;
@@ -60,9 +61,6 @@ public class Pokemon extends Card{
     public void setEvolution(int userEvolution){
         evolution = userEvolution;
     }
-    public void setEvolution(Card userEnergy){
-        energyBank.add(userEnergy);
-    }
     public void setMoveCost(int userMoveCost){
         moveCost = userMoveCost;
     }
@@ -74,16 +72,23 @@ public class Pokemon extends Card{
     
     //Pokemon Methods
     public String cardSum(){
-        return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n";
+        return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage + " Energy Cost: "+ moveCost + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n" + "Attatched Energy: " + energyBank.size();
     }
     public int useMove(Pokemon one, Pokemon two){
-        System.out.println(toString() + " used " + moveName);
+        
         int tempDamage = damage;
         if(one.moveType.equals(two.weakness)){
             tempDamage = damage + 20;
+            System.out.println("SUPER EFFECTIVE!");
         }
+        System.out.println(toString() + " used " + moveName + " for " + tempDamage + " damage!");
         return tempDamage;
     }
+
+    public void addEnergy(Card userEnergy){
+        energyBank.add(userEnergy);
+    }
+
     @Override
     public String toString(){
         return this.getClass().getSimpleName();

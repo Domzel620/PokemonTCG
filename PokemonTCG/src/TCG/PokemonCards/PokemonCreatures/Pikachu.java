@@ -11,7 +11,7 @@ public class Pikachu extends Pokemon{
         setWeakness("Fighting");
         setRetreat(1);
         setEvolution(0);
-        setMove(30, "Electro Ball", "Electric");
+        setMove(50, "Electro Ball", "Electric");
         setMoveCost(3);
     }
 
