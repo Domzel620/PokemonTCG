@@ -2,8 +2,8 @@ package src.TCG.PokemonCards.PokemonCreatures;
 
 import src.TCG.PokemonCards.Pokemon;
 
-public class Squirtle extends Pokemon{
-    public Squirtle(){
+public class Lapras extends Pokemon{
+    public Lapras(){
         setHp(120);
         setType("Water");
         setWeakness("Grass");
