@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Scanner;
 import javax.swing.text.AbstractDocument;
+import org.w3c.dom.UserDataHandler;
 import src.TCG.PokemonCards.*;
 import src.TCG.DeckCreator;
 import src.TCG.EnergyCards.Energy;
+import src.TCG.TrainerCards.TrainerCard;
 public class PokemonGame {
     private ArrayList<Card> oneHand;
     private ArrayList<Card> twoHand;
@@ -364,6 +366,83 @@ public class PokemonGame {
             default:
                 System.out.println("Invalide Selection!");
 
+        }
+    }
+
+    public void trainerCards(ArrayList<Card> userHand, ArrayList<Card> userBench, ArrayList<Card> userActive, ArrayList<Card> userDeck){
+        Scanner select = new Scanner(System.in);
+        System.out.println("Which Trainer card would you like to pick?");
+        printHand(userHand);
+        int pick = select.nextInt();
+        if(pick >= 1 && pick <= userHand.size()){
+            if(userHand.get(pick-1) instanceof TrainerCard){
+                if(((TrainerCard)userHand.get(pick-1)).getName().equals("Potion")){
+                    ((TrainerCard)userHand.get(pick-1)).cardSum();
+                    System.out.println("Did you want to heal a \n 1. Active Pokemon? \n 2. Bench Pokemon?");
+                    int choose = select.nextInt();
+                    switch (choose){
+                        case 1:
+                            if(userActive != null && !userActive.isEmpty()){
+                                int tempHP = ((Pokemon)userActive.get(0)).getHp();
+                                ((Pokemon)userActive.get(0)).setHp(tempHP+30);
+                                break;
+                            } else{
+                                System.out.println("No Active Pokemon");
+                                break;
+                            }
+                        case 2:
+                            if(userBench != null && !userBench.isEmpty()){
+                                System.out.println("Which Bench Pokemon would you like to select?");
+                                System.out.println(printBench(userBench));
+                                int benchPick = select.nextInt();
+                                if(benchPick >= 1 && benchPick <= userBench.size()){
+                                    int hp = ((Pokemon)userBench.get(benchPick)).getHp();
+                                    ((Pokemon)userBench.get(benchPick)).setHp(hp+30);
+                                    break;
+                                }else{
+                                    System.out.println("Invalid Selection!");
+                                }
+                            }
+                        default:
+                            System.out.println("Invalid Selection!");
+                    }
+                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Giant Cape")){
+                    ((TrainerCard)userHand.get(pick-1)).cardSum();
+                    System.out.println("Did you want to heal a \n 1. Active Pokemon? \n 2. Bench Pokemon?");
+                    int choose = select.nextInt();
+                    switch (choose){
+                        case 1:
+                            if(userActive != null && !userActive.isEmpty()){
+                                int tempHP = ((Pokemon)userActive.get(0)).getHp();
+                                ((Pokemon)userActive.get(0)).setHp(tempHP+20);
+                                break;
+                            } else{
+                                System.out.println("No Active Pokemon");
+                                break;
+                            }
+                        case 2:
+                            if(userBench != null && !userBench.isEmpty()){
+                                System.out.println("Which Bench Pokemon would you like to select?");
+                                System.out.println(printBench(userBench));
+                                int benchPick = select.nextInt();
+                                if(benchPick >= 1 && benchPick <= userBench.size()){
+                                    int hp = ((Pokemon)userBench.get(benchPick)).getHp();
+                                    ((Pokemon)userBench.get(benchPick)).setHp(hp+20);
+                                    break;
+                                }else{
+                                    System.out.println("Invalid Selection!");
+                                }
+                            }
+                        default:
+                            System.out.println("Invalid Selection!");
+                    }
+                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Nemona")){
+                    ((TrainerCard)userHand.get(pick-1)).cardSum();
+                    for(int i = 0; i < 3; i++){ 
+                        drawCard(userHand, userDeck);
+                    }
+                }
+            }  
         }
     }
     

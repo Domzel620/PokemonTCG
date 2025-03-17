@@ -16,7 +16,7 @@ public class DeckCreator {
     //Creates a fire deck filled with 20 charmander and 40 water energy
     public ArrayList<Card> createFireDeck(){
         ArrayList<Card> fireDeck = new ArrayList<Card>();
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 4; i++){
             fireDeck.add(new Charmander());
         }
         for(int i = 20; i < 60; i++){
