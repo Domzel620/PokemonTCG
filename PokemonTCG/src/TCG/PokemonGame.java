@@ -1,5 +1,6 @@
 package src.TCG;
 
+import java.awt.Choice;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Scanner;
@@ -13,8 +14,10 @@ public class PokemonGame {
     private ArrayList<Card> playerTwoDeck;
     private ArrayList<Card> onePrize;
     private ArrayList<Card> twoPrize;
-    private ArrayList<Card> discard;
-    private ArrayList<Card> bench;
+    private ArrayList<Card> oneDiscard;
+    private ArrayList<Card> twoDiscard;
+    private ArrayList<Card> oneBench;
+    private ArrayList<Card> twoBench;
     private ArrayList<Card> oneActive;
     private ArrayList<Card> twoActive;
     //Getters for the global variables above.
@@ -36,18 +39,42 @@ public class PokemonGame {
     public ArrayList<Card> getTwoPrize(){
         return onePrize;
     }
-    public ArrayList<Card> getDiscard(){
-        return discard;
+    public ArrayList<Card> getOneDiscard(){
+        return oneDiscard;
     }
-    public ArrayList<Card> getBench(){
-        return bench;
+    public ArrayList<Card> getTwoDiscard(){
+        return twoDiscard;
+    }
+    public ArrayList<Card> getOneBench(){
+        return oneBench;
+    }
+    public ArrayList<Card> getTwoBench(){
+        return twoBench;
     }
     public ArrayList<Card> getOneActive(){
         return oneActive;
     }
     public ArrayList<Card> getTwoActive(){
-        return oneActive;
+        return twoActive;
     }
+
+    public PokemonGame() {
+        oneHand = new ArrayList<>();
+        twoHand = new ArrayList<>();
+        playerOneDeck = new ArrayList<>();
+        playerTwoDeck = new ArrayList<>();
+        onePrize = new ArrayList<>();
+        twoPrize = new ArrayList<>();
+        oneDiscard = new ArrayList<>();
+        twoDiscard = new ArrayList<>();
+        oneBench = new ArrayList<>();
+        twoBench = new ArrayList<>();
+        oneActive = new ArrayList<>(); 
+        twoActive = new ArrayList<>(); 
+    }
+
+//-----------------------------------------------------------------------------------------------------Hand/Deck Modifier Methods-------------------------------------------------------------------------------------------------------------------------
+
 
 
     //Method used to draw 7 cards into the users hand.
@@ -149,6 +176,7 @@ public class PokemonGame {
         userDeck.remove(0);
     }
 
+    //----------------------------------------------------------------------------------------------------------Misc. GameLoop Methods------------------------------------------------------------------------------------------------------------------
 
     //Method for Coinflip method
     public boolean coinFlip(){
@@ -217,36 +245,117 @@ public class PokemonGame {
         return end;
     }
 
-    //NOT COMPLETE
-    public ArrayList<Card> placeActive(ArrayList<Card> userHand, ArrayList<Card> userActive){
-        Scanner select = new Scanner(System.in);
-        ArrayList<Card> temp = userHand;
-        printHand(userHand);
-        System.out.println("Which Pokemon would you like to play?");
-        int choice = select.nextInt();
-        
-        
-        
-            userActive.add(temp.get(choice));
-            userHand.remove(choice);
-            return userActive;
-        }
-        
+
+
+//-------------------------------------------------------------------------------------------------------------Player Move Methods-----------------------------------------------------------------------------------------------------------------------------------
     public int Attack(ArrayList<Card> oneActive, ArrayList<Card> twoActive){
         int hp = 0;//placeholder 
         return hp;
     }
 
+    
 
+    //-------------------------------------------------------------------------------------------Placing Pokemon Methods---------------------------------------------------------------------------------------------------------------------------------------------
+
+    //Code for placing down an Active Pokemon
+    public ArrayList<Card> placeActive(ArrayList<Card> userHand, ArrayList<Card> userActive){
+        Scanner select = new Scanner(System.in);
+        ArrayList<Card> temp = userHand;
+        printHand(userHand);
+        System.out.println("Which Pokemon would you like to play?");
+        boolean validChoice = false;
+        while(validChoice == false){
+            int choice = select.nextInt();
+            if(temp.get(choice - 1) instanceof Pokemon){ 
+                if(choice >= 0 && choice <= userHand.size()){
+                    userActive.add(temp.get(choice - 1));
+                    userHand.remove(choice);
+                    validChoice = true;
+                } else{
+                    System.out.println("Invalid Choice, please select another card!");
+                }
+            } else{
+                System.out.println("Invalid Choice, please select a Pokemon!");
+            }
+            
+            
+        }
+        return userActive;
+        
+    }
+        
+   
+
+    public ArrayList<Card> placeBench(ArrayList<Card> userHand, ArrayList<Card> userBench){
+        Scanner select = new Scanner(System.in);
+        ArrayList<Card> temp = userHand;
+        printHand(userHand);
+        System.out.println("Which Pokemon would you like to place into your Bench?");
+        boolean validChoice = false;
+        while(validChoice == false){
+            int choice = select.nextInt() ;
+            if(temp.get(choice - 1) instanceof Pokemon){ 
+                if(choice >= 0 && choice <= userHand.size()){
+                    userBench.add(temp.get(choice - 1));
+                    userHand.remove(choice-1);
+                    validChoice = true;
+                } else{
+                    System.out.println("Invalid Choice, please select another card!");
+                }
+            } else{
+                System.out.println("Invalid Choice, please select a Pokemon!");
+            }
+            
+            
+        }
+        return userBench;
+    }
+    public String printBench(ArrayList<Card> userBench){
+        String bench = "";
+        int num = 1;
+        for(Card card : userBench){
+            bench = bench + num + ". " + card + ", ";
+            num++;
+        }
+        return bench;
+    }
+
+
+    //Prints the battleboard (Extra Credit)
+    public void printBoard(ArrayList<Card> userOneBench, ArrayList<Card> userTwoBench, ArrayList<Card> userOneActive, ArrayList<Card> userTwoActive){
+        System.out.println("-----------------------------------------------------------------------------\n \n");
+        System.out.println("Player 1 Side");
+        System.out.println("\nBENCH: " + printBench(userOneBench)+ "\n");
+        if(userOneActive != null && !userOneActive.isEmpty()){
+            System.out.println("\n ACTIVE: " + ((Pokemon)userOneActive.get(0)).cardSum());
+        }else{
+            System.out.println("\nACTIVE: N/A");
+        }
+        
+        System.out.println("\n \n------------------------------------(-0-)------------------------------------\n \n");
+    
+        if(userTwoActive != null && !userTwoActive.isEmpty()){
+            System.out.println("\n ACTIVE: " + ((Pokemon)userTwoActive.get(0)).cardSum() + "\n");
+        }else{
+            System.out.println("\n ACTIVE: N/A");
+        }
+        System.out.println("\n BENCH: " + printBench(userTwoBench)+ "\n");
+        System.out.println("Player 2 Side");
+        System.out.println("\n \n-----------------------------------------------------------------------------");
+
+    }
+
+//-----------------------------------------------------------------------------------------Player Turns-----------------------------------------------------------------------------------------------------------------------------------------
 
     //Code for when Player 1 wins the coinflip
     public void playerOneFirst(){
         Scanner turn = new Scanner(System.in);
         boolean endCheck = gameOver();
-        while (endCheck == false){
-            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Active Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
+        while (endCheck == false){     
             boolean endTurn = false;
             drawCard(oneHand, playerOneDeck);
+            printBoard(oneBench, twoBench, oneActive, twoActive);
+            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -257,22 +366,40 @@ public class PokemonGame {
                         break;
                     case 2:
                     // Call Attach Energy Method
-                    System.out.println("You Attached an Energy. What else would you like to do?");
+                        System.out.println("You Attached an Energy. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 3:
-                    // Call Place Active Pokemon Method 
-                        System.out.println("You placed a Pokemon. What else would you like to do?");
-                        oneActive = placeActive(oneHand, oneActive);
-                        System.out.println("ACTIVE: " + oneActive);
-                        break;
+                    // Call Place Active Pokemon Method
+                            if(oneActive.size() > 0){
+                                System.out.println("Active Slot full please pick another option!");
+                                break;
+                            } else{
+                                oneActive = placeActive(oneHand, oneActive);
+                                printBoard(oneBench, twoBench, oneActive, twoActive);
+                                System.out.println("You placed a Pokemon. What else would you like to do?");
+                                System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                                break;
+                            }
                     case 4:
-                    // Call Evolve Method
-                    System.out.println("You Evolved your Pokemon. What else would you like to do?");
-                        break;
+                    //Call Place Bench Pokemon Method
+                        if(oneBench.size() > 6){
+                            System.out.println("Bench Full,pick another option!");
+                            break;
+                        } else{
+                            oneBench = placeBench(oneHand, oneBench);
+                            printBoard(oneBench, twoBench, oneActive, twoActive);
+                        }
                     case 5:
-                        printHand(oneHand);
+                    // Call Evolve Method
+                        System.out.println("You Evolved your Pokemon. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 6:
+                        printHand(oneHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    case 7:
                         System.out.println("You passed your turn!");
                         endTurn = true;
                         break;
@@ -281,8 +408,9 @@ public class PokemonGame {
                         
                 }
             }
+            printBoard(oneBench, twoBench, oneActive, twoActive);
             endCheck = gameOver();
-            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
+            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
             endTurn = false;
             drawCard(twoHand, playerTwoDeck);
             while(endTurn == false){
@@ -296,19 +424,39 @@ public class PokemonGame {
                     case 2:
                     // Call Attach Energy Method
                         System.out.println("You Attached an Energy. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 3:
                     // Call Place Pokemon Method 
-                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                    if(twoActive.size() > 0){
+                        System.out.println("Active Slot full please pick another option!");
                         break;
+                    } else{
+                        twoActive = placeActive(twoHand, twoActive);
+                        printBoard(oneBench, twoBench, oneActive, twoActive);
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    }
                     case 4:
+                    // Call Place Bench Pokemon
+                        if(twoBench.size() > 6){
+                            System.out.println("Bench Full, pick another option!");
+                            break;
+                        } else{
+                            twoBench = placeBench(twoHand, twoBench);
+                            printBoard(oneBench, twoBench, oneActive, twoActive);
+                        }
+                    case 5:
                     // Call Evolve Method
                         System.out.println("You Evolved your Pokemon. What else would you like to do?");
-                        break;
-                    case 5:
-                        printHand(twoHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 6:
+                        printHand(twoHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    case 7:
                         System.out.println("You passed your turn!");
                         endTurn = true;
                         break;
@@ -316,19 +464,24 @@ public class PokemonGame {
                         System.out.println("Invalid Input Please pick one of the options above!");
                 }          
             }
+            printBoard(oneBench, twoBench, oneActive, twoActive);
             endCheck = gameOver();
         }
     }
 
     
+
+
+
     //Code for when Player 2 wins the coin flip
     public void playerTwoFirst(){
         Scanner turn = new Scanner(System.in);
         boolean endCheck = gameOver();
+        printBoard(oneBench, twoBench, oneActive, twoActive);
         while (endCheck == false){
-            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. See Hand \n 6. Pass");
+            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
             boolean endTurn = false;
-            drawCard(oneHand, playerOneDeck);
+            drawCard(twoHand, playerTwoDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
@@ -340,28 +493,49 @@ public class PokemonGame {
                     case 2:
                     // Call Attach Energy Method
                         System.out.println("You Attached an Energy. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 3:
                     // Call Place Pokemon Method 
-                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                    if(twoActive.size() > 0){
+                        System.out.println("Active Slot full please pick another option!");
                         break;
+                    } else{
+                        twoActive = placeActive(twoHand, twoActive);
+                        printBoard(oneBench, twoBench, oneActive, twoActive);
+                        System.out.println("You placed a Pokemon. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    }
                     case 4:
+                    // Call Place Bench Pokemon
+                        if(twoBench.size() > 6){
+                            System.out.println("Bench Full, pick another option!");
+                            break;
+                        } else{
+                            twoBench = placeBench(twoHand, twoBench);
+                            printBoard(oneBench, twoBench, oneActive, twoActive);
+                        }
+                    case 5:
                     // Call Evolve Method
                         System.out.println("You Evolved your Pokemon. What else would you like to do?");
-                        break;
-                    case 5:
-                        printHand(twoHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 6:
+                        printHand(twoHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    case 7:
                         System.out.println("You passed your turn!");
                         endTurn = true;
                         break;
                     default:
                         System.out.println("Invalid Input Please pick one of the options above!");
-                }
+                }          
             }
+            printBoard(oneBench, twoBench, oneActive, twoActive);
             endCheck = gameOver();
-            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place Pokemon \n 4. Evolve \n 5. Show Hand \n 6. Pass");
+            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
             endTurn = false;
             drawCard(oneHand, playerOneDeck);
             while(endTurn == false){
@@ -369,36 +543,62 @@ public class PokemonGame {
                 switch (move){
                     case 1:
                     // Call Attack Method
-                        System.out.println("You Attacked!");
+                    System.out.println("You Attacked!");
                         endTurn = true;
                         break;
                     case 2:
                     // Call Attach Energy Method
                         System.out.println("You Attached an Energy. What else would you like to do?");
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 3:
-                    // Call Place Pokemon Method 
-                        System.out.println("You placed a Pokemon. What else would you like to do?");
-                        break;
+                    // Call Place Active Pokemon Method
+                            if(oneActive.size() > 0){
+                                System.out.println("Active Slot full please pick another option!");
+                                break;
+                            } else{
+                                oneActive = placeActive(oneHand, oneActive);
+                                printBoard(oneBench, twoBench, oneActive, twoActive);
+                                System.out.println("You placed a Pokemon. What else would you like to do?");
+                                System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                                break;
+                            }
                     case 4:
+                    //Call Place Bench Pokemon Method
+                        if(oneBench.size() > 6){
+                            System.out.println("Bench Full,pick another option!");
+                            break;
+                        } else{
+                            oneBench = placeBench(oneHand, oneBench);
+                            printBoard(oneBench, twoBench, oneActive, twoActive);
+                        }
+                    case 5:
                     // Call Evolve Method
                         System.out.println("You Evolved your Pokemon. What else would you like to do?");
-                        break;
-                    case 5: 
-                        printHand(oneHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
                         break;
                     case 6:
+                        printHand(oneHand);
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Evolve \n 6. Show Hand \n 7. Pass");
+                        break;
+                    case 7:
                         System.out.println("You passed your turn!");
                         endTurn = true;
                         break;
                     default:
                         System.out.println("Invalid Input Please pick one of the options above!");
-                }          
+                        
+                }
             }
+            printBoard(oneBench, twoBench, oneActive, twoActive);
             endCheck = gameOver();
         }
     }
 
+
+//-------------------------------------------------------------------------------------------------------------Main Game Loop------------------------------------------------------------------------------------------------------------------
+
+    //MAIN GAME LOOP
     public void gameLoop(){
         //Players Choose their Decks
         System.out.println("Player 1, please create your deck and get set up");

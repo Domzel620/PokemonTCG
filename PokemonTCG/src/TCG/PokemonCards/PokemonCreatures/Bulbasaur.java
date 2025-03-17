@@ -1,9 +1,8 @@
 package src.TCG.PokemonCards.PokemonCreatures;
-
 import src.TCG.PokemonCards.Pokemon;
 
-public class Squirtle extends Pokemon{
-    public Squirtle(){
+public class Bulbasaur extends Pokemon{
+    public Bulbasaur(){
         setHp(70);
         setMove(20, "Water Gun", "Water");
         setType("Water");

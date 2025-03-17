@@ -1,4 +1,5 @@
 package src.TCG.PokemonCards;
+import java.util.ArrayList;
 import src.TCG.Card;
 
 public class Pokemon extends Card{
@@ -6,33 +7,23 @@ public class Pokemon extends Card{
         setCardType("Pokemon");
     }
     private int hp;
-    private int attack;
-    private int defense;
-    private int spAttack;
-    private int spDefense;
-    private int speed;
     private String type;
     private String weakness;
     private int retreat;
     private int evolution;
+    private ArrayList<Card> energyBank;
+    private String cardSum;
+    private int damage;
+    private String moveName;
+    private String moveType;
+    private int moveCost;
 
+    //Getters
     public int getHp(){
         return hp;
     }
-    public int getAttack(){
-        return attack;
-    }
-    public int getDefense(){
-        return defense;
-    }
-    public int getspAttack(){
-        return spAttack;
-    }
-    public int getspDefense(){
-        return spDefense;
-    }
-    public int getSpeed(){
-        return speed;
+    public int getDamage(){
+        return damage;
     }
     public String getType(){
         return type;
@@ -46,18 +37,16 @@ public class Pokemon extends Card{
     public int getEvolution(){
         return evolution;
     }
+    public ArrayList<Card> getEnergyBank(){
+        return energyBank;
+    }
+    public int getMoveCost(){
+        return moveCost;
+    }
 
+    //Setters
     public void setHp(int userHp){
         hp = userHp;
-    }
-    public void setAttack(int userAttack){
-        attack = userAttack;
-    }
-    public void setDefense(int userDefense){
-        defense = userDefense;
-    }
-    public void setSpeed(int userSpeed){
-        speed = userSpeed;
     }
     public void setType(String userType){
         type = userType;
@@ -69,6 +58,34 @@ public class Pokemon extends Card{
         retreat = userRetreat;
     }
     public void setEvolution(int userEvolution){
-        retreat = userEvolution;
+        evolution = userEvolution;
+    }
+    public void setEvolution(Card userEnergy){
+        energyBank.add(userEnergy);
+    }
+    public void setMoveCost(int userMoveCost){
+        moveCost = userMoveCost;
+    }
+    public void setMove(int userDamage, String userMoveName, String userMoveType){
+        damage = userDamage;
+        moveName = userMoveName;
+        moveType = userMoveType;
+    }
+    
+    //Pokemon Methods
+    public String cardSum(){
+        return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n";
+    }
+    public int useMove(Pokemon one, Pokemon two){
+        System.out.println(toString() + " used " + moveName);
+        int tempDamage = damage;
+        if(one.moveType.equals(two.weakness)){
+            tempDamage = damage + 20;
+        }
+        return tempDamage;
+    }
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName();
     }
 }
