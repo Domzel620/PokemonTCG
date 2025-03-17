@@ -602,6 +602,8 @@ public class PokemonGame {
         printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
         while (endCheck == false){     
             boolean endTurn = false;
+            int energy = 0;
+            int train = 0;
             drawCard(oneHand, playerOneDeck);
             System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
             while(endTurn == false){
@@ -643,8 +645,13 @@ public class PokemonGame {
                         
                     case 2:
                     // Call Attach Energy Method
+                    if(energy ==0){
                         attachEnergy(oneActive, oneBench, oneHand);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                        energy = 1;
+                    }else{
+                        System.out.println("Already Attatched an Energy this turn!");
+                    }
                         break;
                     case 3:
                     // Call Place Active Pokemon Method
@@ -679,7 +686,12 @@ public class PokemonGame {
                         break;
                     case 7:
                     //Call Trainer Method
-                        trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
+                        if(train == 0){
+                            trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
+                            train = 1;
+                        }else{
+                            System.out.println("Already played a Trainer Card this turn!");
+                        }
                         break;
                     case 8:
                         System.out.println("You passed your turn!");
@@ -694,8 +706,11 @@ public class PokemonGame {
             endCheck = gameOver();
             System.out.println("\n Player 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Card\n 8. Pass");
             endTurn = false;
+            energy = 0;
+            train = 0;
             drawCard(twoHand, playerTwoDeck);
             while(endTurn == false){
+                
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
@@ -732,8 +747,13 @@ public class PokemonGame {
                         }
                     case 2:
                     // Call Attach Energy Method
-                        attachEnergy(twoActive, twoBench, twoHand);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                        if(energy == 0){
+                            attachEnergy(twoActive, twoBench, twoHand);
+                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                            energy = 1;
+                        }else{
+                            System.out.println("Already Attached an Energy this turn!");
+                        }
                         break;
                     case 3:
                     // Call Place Pokemon Method 
@@ -767,7 +787,12 @@ public class PokemonGame {
                         break;
                     case 7: 
                     //Call Trainer Card Method
-                        trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
+                        if(train == 0){
+                            trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
+                            train = 1;
+                        }else{
+                            System.out.println("Trainer Card has already been played this turn!");
+                        }
                         break;
                     case 8:
                         System.out.println("You passed your turn!");
@@ -792,6 +817,8 @@ public class PokemonGame {
         boolean endCheck = gameOver();
         printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
         while (endCheck == false){
+            int energy = 0;
+            int train = 0;
             System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards \n 8. Pass");
             boolean endTurn = false;
             drawCard(twoHand, playerTwoDeck);
@@ -832,9 +859,13 @@ public class PokemonGame {
                         }
                     case 2:
                     // Call Attach Energy Method
-                        attachEnergy(twoActive, twoBench, twoHand);
-                        System.out.println("You Attached an Energy. What else would you like to do?");
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                        if(energy == 0){
+                            attachEnergy(twoActive, twoBench, twoHand);
+                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                            energy = 1;
+                        }else{
+                            System.out.println("You already attached an Energy this turn!");
+                        }
                         break;
                     case 3:
                     // Call Place Pokemon Method 
@@ -868,7 +899,12 @@ public class PokemonGame {
                         break;
                     case 7:
                     //Call Trainer Card Method
-                        trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
+                        if(train == 0){
+                            trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
+                            train = 1;
+                        }else{
+                            System.out.println("Trainer Card already played this turn!");
+                        }
                         break;
                     case 8:
                         System.out.println("You passed your turn!");
@@ -882,6 +918,8 @@ public class PokemonGame {
             endCheck = gameOver();
             System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
             endTurn = false;
+            energy = 0;
+            train = 0;
             drawCard(oneHand, playerOneDeck);
             while(endTurn == false){
                 int move = turn.nextInt();
@@ -920,9 +958,14 @@ public class PokemonGame {
                         }
                     case 2:
                     // Call Attach Energy Method
-                        attachEnergy(oneActive, oneBench, oneHand);
-                        System.out.println("You Attached an Energy. What else would you like to do?");
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                        if(energy == 0){
+                            attachEnergy(oneActive, oneBench, oneHand);
+                            System.out.println("You Attached an Energy. What else would you like to do?");
+                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                            energy = 1;
+                        }else{
+                            System.out.println("Energy already Attached this turn!");
+                        }
                         break;
                     case 3:
                     // Call Place Active Pokemon Method
@@ -956,7 +999,12 @@ public class PokemonGame {
                         break;
                     case 7:
                     //Call Trainer Card  Method
-                        trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
+                        if(train == 0){
+                            trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
+                            train = 1;
+                        }else{
+                            System.out.println("Trainer Card already played this turn!");
+                        }
                         break;
                     case 8:
                         System.out.println("You passed your turn!");
