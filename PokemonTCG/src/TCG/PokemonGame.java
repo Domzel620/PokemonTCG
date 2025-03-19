@@ -307,7 +307,7 @@ public class PokemonGame {
         }
        
     }
-
+    //Method to Attach Energy
     public void attachEnergy(ArrayList<Card> userActive, ArrayList<Card> userBench, ArrayList<Card> userHand){
         Scanner select = new Scanner(System.in);
         System.out.println("Would you like to attach energy to your \n 1. Active Pokemon \n 2. Bench Pokemon");
@@ -596,39 +596,39 @@ public class PokemonGame {
 //-----------------------------------------------------------------------------------------Player Turns-----------------------------------------------------------------------------------------------------------------------------------------
 
     //Code for when Player 1 wins the coinflip
-    public void playerOneFirst(){
+    public void playerOneFirst(ArrayList<Card> firstDeck, ArrayList<Card> firstHand, ArrayList<Card> firstActive, ArrayList<Card> firstBench, ArrayList<Card> firstPrize, ArrayList<Card> firstDiscard, ArrayList<Card> secondDiscard, ArrayList<Card> secondActive, ArrayList<Card> secondBench, ArrayList<Card> secondPrize, int player){
         Scanner turn = new Scanner(System.in);
-        boolean endCheck = gameOver();
-        printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-        while (endCheck == false){     
+        printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+          
             boolean endTurn = false;
             int energy = 0;
             int train = 0;
-            drawCard(oneHand, playerOneDeck);
-            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
+            boolean endCheck;
+            drawCard(firstHand, firstDeck);
+            System.out.println("\nPlayer"+ player +" What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
             while(endTurn == false){
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
                     // Call Attack Method 
-                        if(twoActive == null || twoActive.isEmpty()){//Checks to make sure there is a Pokemon in Opponents Active Spot
+                        if(secondActive == null || secondActive.isEmpty()){//Checks to make sure there is a Pokemon in Opponents Active Spot
                             System.out.println("No Pokemon in Opponents Active Spot!");
                             break;
-                        }else if(oneActive != null && !oneActive.isEmpty()){//Checks to make sure there is a pokemon in the active spot
+                        }else if(firstActive != null && !firstActive.isEmpty()){//Checks to make sure there is a pokemon in the active spot
                             System.out.println("Would you like to \n 1. Attack \n 2. Check the Energy cost? \n 3. Select another move?");
                             int decision = turn.nextInt();
                             switch (decision){
                                 case 1://Calls the attack Method
-                                    boolean survival = attack(oneActive, twoActive, oneHand, onePrize);
+                                    boolean survival = attack(firstActive, secondActive, firstHand, firstPrize);
                                     if(survival == true){// Checks to see if opponents pokemon is knocked out
-                                        twoDiscard.add(twoActive.get(0));
-                                        System.out.println(twoActive.get(0) + " was knocked out!!");
-                                        twoActive.clear();
+                                        secondDiscard.add(secondActive.get(0));
+                                        System.out.println(secondActive.get(0) + " was knocked out!!");
+                                        secondActive.clear();
                                     }
                                     endTurn = true;
                                     break;
                                 case 2: // Shows you the Cost of your pokemons move
-                                    System.out.println("Your move costs " + ((Pokemon)oneActive.get(0)).getMoveCost() + "Energy");
+                                    System.out.println("Your move costs " + ((Pokemon)firstActive.get(0)).getMoveCost() + "Energy");
                                     break;
                                 case 3:// Lets the player select another move 
                                     System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
@@ -646,7 +646,7 @@ public class PokemonGame {
                     case 2:
                     // Call Attach Energy Method
                     if(energy ==0){
-                        attachEnergy(oneActive, oneBench, oneHand);
+                        attachEnergy(firstActive, firstBench, firstHand);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         energy = 1;
                     }else{
@@ -655,39 +655,39 @@ public class PokemonGame {
                         break;
                     case 3:
                     // Call Place Active Pokemon Method
-                            if(oneActive.size() > 0){
+                            if(firstActive.size() > 0){
                                 System.out.println("Active Slot full please pick another option!");
                                 break;
                             } else{
-                                oneActive = placeActive(oneHand, oneActive, oneBench);
-                                printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
+                                oneActive = placeActive(firstHand, firstActive, firstBench);
+                                printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
                                 System.out.println("You placed a Pokemon. What else would you like to do?");
                                 System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                                 break;
                             }
                     case 4:
                     //Call Place Bench Pokemon Method
-                        if(oneBench.size() > 6){
+                        if(firstBench.size() > 6){
                             System.out.println("Bench Full,pick another option!");
                             break;
                         } else{
-                            oneBench = placeBench(oneHand, oneBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
+                            firstBench = placeBench(firstHand, firstBench);
+                            printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
                         }
                     case 5:
                     // Call printBoard Method
-                    printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
+                    printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
                     //Calls printHand Method
                     case 6:
-                        printHand(oneHand);
+                        printHand(firstHand);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
                     case 7:
                     //Call Trainer Method
                         if(train == 0){
-                            trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
+                            trainerCards(firstHand, firstBench, firstActive, firstDeck);
                             train = 1;
                         }else{
                             System.out.println("Already played a Trainer Card this turn!");
@@ -702,322 +702,9 @@ public class PokemonGame {
                         
                 }
             }
-            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
+            printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
             endCheck = gameOver();
-            System.out.println("\n Player 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Card\n 8. Pass");
-            endTurn = false;
-            energy = 0;
-            train = 0;
-            drawCard(twoHand, playerTwoDeck);
-            while(endTurn == false){
-                
-                int move = turn.nextInt();
-                switch (move){
-                    case 1:
-                    // Call Attack Method
-                        if(oneActive == null || oneActive.isEmpty()){
-                            System.out.println("No Pokemon in Opponents Active Spot!");
-                            break;
-                        }else if(twoActive != null && !twoActive.isEmpty()){//Checks to make sure there is a pokemon in the active spot
-                            System.out.println("Would you like to \n 1. Attack \n 2. Check the Energy cost? \n 3. Select another move?");
-                            int decision = turn.nextInt();
-                            switch (decision){
-                                case 1://Calls the pokemon attack method
-                                    boolean survival = attack(twoActive, oneActive, twoHand, twoPrize);
-                                    if(survival == true){//Checks to see if opponent is knocked out
-                                        oneDiscard.add(oneActive.get(0));
-                                        System.out.println(oneActive.get(0) + " was knocked out!!");
-                                        oneActive.clear();
-                                    }
-                                    endTurn = true;
-                                    break;
-                                case 2: // Checks the move cost
-                                    System.out.println("Your move costs " + ((Pokemon)twoActive.get(0)).getMoveCost() + " Energy");
-                                    break;
-                                case 3:// Lets the player pick another move
-                                    System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                                    break;
-                                default:
-                                    System.out.println("Invalid Selection!");
-                            }
-                            break;    
-                        }else{
-                            System.out.println("Active Spot is Empty!");
-                            break;
-                        }
-                    case 2:
-                    // Call Attach Energy Method
-                        if(energy == 0){
-                            attachEnergy(twoActive, twoBench, twoHand);
-                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                            energy = 1;
-                        }else{
-                            System.out.println("Already Attached an Energy this turn!");
-                        }
-                        break;
-                    case 3:
-                    // Call Place Pokemon Method 
-                        if(twoActive.size() > 0){
-                            System.out.println("Active Slot full please pick another option!");
-                            break;
-                        } else{
-                            twoActive = placeActive(twoHand, twoActive, twoBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                            System.out.println("You placed a Pokemon. What else would you like to do?");
-                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                            break;
-                        }
-                    case 4:
-                    // Call Place Bench Pokemon
-                        if(twoBench.size() > 6){
-                            System.out.println("Bench Full, pick another option!");
-                            break;
-                        } else{
-                            twoBench = placeBench(twoHand, twoBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        }
-                    case 5:
-                    // Call printBoard Method
-                    printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 6:
-                        printHand(twoHand);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 7: 
-                    //Call Trainer Card Method
-                        if(train == 0){
-                            trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
-                            train = 1;
-                        }else{
-                            System.out.println("Trainer Card has already been played this turn!");
-                        }
-                        break;
-                    case 8:
-                        System.out.println("You passed your turn!");
-                        endTurn = true;
-                        break;
-                    default:
-                        System.out.println("Invalid Input Please pick one of the options above!");
-                }          
-            }
-            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-            endCheck = gameOver();
-        }
-    }
-
-    
-
-
-
-    //Code for when Player 2 wins the coin flip
-    public void playerTwoFirst(){
-        Scanner turn = new Scanner(System.in);
-        boolean endCheck = gameOver();
-        printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-        while (endCheck == false){
-            int energy = 0;
-            int train = 0;
-            System.out.println("\nPlayer 2 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards \n 8. Pass");
-            boolean endTurn = false;
-            drawCard(twoHand, playerTwoDeck);
-            while(endTurn == false){
-                int move = turn.nextInt();
-                switch (move){
-                    case 1:
-                    // Call Attack Method
-                        if(oneActive == null || oneActive.isEmpty()){
-                            System.out.println("No Pokemon in Opponents Active Spot!");
-                            break;
-                        }else if(twoActive != null && !twoActive.isEmpty()){//Checks to make sure there is a pokemon in the active spot
-                            System.out.println("Would you like to \n 1. Attack \n 2. Check the Energy cost? \n 3. Select another move?");
-                            int decision = turn.nextInt();
-                            switch (decision){
-                                case 1:
-                                    boolean survival = attack(twoActive, oneActive, twoHand, twoPrize);
-                                    if(survival == true){
-                                        oneDiscard.add(oneActive.get(0));
-                                        System.out.println(oneActive.get(0) + " was knocked out!!");
-                                        oneActive.clear();
-                                    }
-                                    endTurn = true;
-                                    break;
-                                case 2: 
-                                    System.out.println("Your move costs " + ((Pokemon)twoActive.get(0)).getMoveCost());
-                                    break;
-                                case 3:
-                                    System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                                    break;
-                                default:
-                                    System.out.println("Invalid Selection!");
-                            }
-                            break;    
-                        }else{
-                            System.out.println("Active Spot is Empty!");
-                            break;
-                        }
-                    case 2:
-                    // Call Attach Energy Method
-                        if(energy == 0){
-                            attachEnergy(twoActive, twoBench, twoHand);
-                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                            energy = 1;
-                        }else{
-                            System.out.println("You already attached an Energy this turn!");
-                        }
-                        break;
-                    case 3:
-                    // Call Place Pokemon Method 
-                        if(twoActive.size() > 0){
-                            System.out.println("Active Slot full please pick another option!");
-                            break;
-                        } else{
-                            twoActive = placeActive(twoHand, twoActive, twoBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                            System.out.println("You placed a Pokemon. What else would you like to do?");
-                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                            break;
-                        }
-                    case 4:
-                    // Call Place Bench Pokemon
-                        if(twoBench.size() > 6){
-                            System.out.println("Bench Full, pick another option!");
-                            break;
-                        } else{
-                            twoBench = placeBench(twoHand, twoBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        }
-                    case 5:
-                    // Call printBoard Method
-                    printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 6:
-                        printHand(twoHand);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 7:
-                    //Call Trainer Card Method
-                        if(train == 0){
-                            trainerCards(twoHand, twoBench, twoActive, playerTwoDeck);
-                            train = 1;
-                        }else{
-                            System.out.println("Trainer Card already played this turn!");
-                        }
-                        break;
-                    case 8:
-                        System.out.println("You passed your turn!");
-                        endTurn = true;
-                        break;
-                    default:
-                        System.out.println("Invalid Input Please pick one of the options above!");
-                }          
-            }
-            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-            endCheck = gameOver();
-            System.out.println("\nPlayer 1 What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
-            endTurn = false;
-            energy = 0;
-            train = 0;
-            drawCard(oneHand, playerOneDeck);
-            while(endTurn == false){
-                int move = turn.nextInt();
-                switch (move){
-                    case 1:
-                    // Call Attack Method
-                        if(twoActive == null || twoActive.isEmpty()){
-                            System.out.println("No Pokemon in Opponents Active Spot!");
-                            break;
-                        }else if(oneActive != null && !oneActive.isEmpty()){//Checks to make sure there is a pokemon in the active spot
-                            System.out.println("Would you like to \n 1. Attack \n 2. Check the Energy cost? \n 3. Select another move?");
-                            int decision = turn.nextInt();
-                            switch (decision){
-                                case 1:
-                                    boolean survival = attack(oneActive, twoActive, oneHand, onePrize);
-                                    if(survival == true){
-                                        twoDiscard.add(twoActive.get(0));
-                                        System.out.println(twoActive.get(0) + " was knocked out!!");
-                                        twoActive.clear();
-                                    }
-                                    endTurn = true;
-                                    break;
-                                case 2: 
-                                    System.out.println("Your move costs " + ((Pokemon)oneActive.get(0)).getMoveCost());
-                                    break;
-                                case 3:
-                                    System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                                    break;
-                                default:
-                                    System.out.println("Invalid Selection!");
-                            }
-                            break;    
-                        }else{
-                            System.out.println("Active Spot is Empty!");
-                            break;
-                        }
-                    case 2:
-                    // Call Attach Energy Method
-                        if(energy == 0){
-                            attachEnergy(oneActive, oneBench, oneHand);
-                            System.out.println("You Attached an Energy. What else would you like to do?");
-                            System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                            energy = 1;
-                        }else{
-                            System.out.println("Energy already Attached this turn!");
-                        }
-                        break;
-                    case 3:
-                    // Call Place Active Pokemon Method
-                            if(oneActive.size() > 0){
-                                System.out.println("Active Slot full please pick another option!");
-                                break;
-                            } else{
-                                oneActive = placeActive(oneHand, oneActive, oneBench);
-                                printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                                System.out.println("You placed a Pokemon. What else would you like to do?");
-                                System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                                break;
-                            }
-                    case 4:
-                    //Call Place Bench Pokemon Method
-                        if(oneBench.size() > 6){
-                            System.out.println("Bench Full,pick another option!");
-                            break;
-                        } else{
-                            oneBench = placeBench(oneHand, oneBench);
-                            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        }
-                    case 5:
-                    // Call printBoard Method
-                    printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 6:
-                        printHand(oneHand);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        break;
-                    case 7:
-                    //Call Trainer Card  Method
-                        if(train == 0){
-                            trainerCards(oneHand, oneBench, oneActive, playerOneDeck);
-                            train = 1;
-                        }else{
-                            System.out.println("Trainer Card already played this turn!");
-                        }
-                        break;
-                    case 8:
-                        System.out.println("You passed your turn!");
-                        endTurn = true;
-                        break;
-                    default:
-                        System.out.println("Invalid Input Please pick one of the options above!");
-                        
-                }
-            }
-            printBoard(oneBench, twoBench, oneActive, twoActive, onePrize, twoPrize);
-            endCheck = gameOver();
-        }
+            
     }
 
 
@@ -1043,10 +730,18 @@ public class PokemonGame {
         boolean playOrder = coinFlip();
         if(playOrder == true){
             System.out.println("Player 1 is up first!");
-            playerOneFirst();
+            boolean cont = gameOver();
+            while(cont == false){
+                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1);
+                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize,2);
+            }
         }else if(playOrder == false){
             System.out.println("Player 2 is up first!");
-            playerTwoFirst();
+            boolean cont = gameOver();
+            while(cont == false){
+                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize, 2);
+                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1);
+            }
         }
     }
     
