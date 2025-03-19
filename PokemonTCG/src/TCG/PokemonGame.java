@@ -4,10 +4,7 @@ import java.awt.Choice;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Scanner;
-import javax.swing.text.AbstractDocument;
-import org.w3c.dom.UserDataHandler;
 import src.TCG.PokemonCards.*;
-import src.TCG.DeckCreator;
 import src.TCG.EnergyCards.Energy;
 import src.TCG.TrainerCards.TrainerCard;
 public class PokemonGame {
@@ -94,7 +91,7 @@ public class PokemonGame {
             userDeck.remove(i); 
         }
     
-        // Checks if a Pokemon is hand
+        // Checks if a Pokemon is in hand
         boolean hasPokemon = checkHand(userDeck, hand);
         //Loops until there is finally a hand with a pokemon in it.
         while(hasPokemon == false){
@@ -114,7 +111,7 @@ public class PokemonGame {
         }
     }
 
-
+    //This method is used to check the hand of the player, ensuring there is a pokemon in it
     public boolean checkHand(ArrayList<Card> userDeck, ArrayList<Card> userHand){
         for (Card card : userHand) {
             if (card instanceof Pokemon) {
@@ -207,7 +204,6 @@ public class PokemonGame {
             System.out.println("Invalid Selection, please pick an option between 1-44!");
                 selection = deckSelection.nextInt();
         }
-        //Ask professor the benefit of using a switch here instead of the if statements
         switch (selection) {
             case 1:
                 System.out.println("You've Selected the Electric Deck!");
@@ -228,7 +224,7 @@ public class PokemonGame {
         }
         return tempDeck;
     }
-
+    //This method is called in the gameOver() method and is used to make sure a player can make a move on their turn
     public boolean checkPlayables(ArrayList<Card> userHand, ArrayList<Card> userBench, ArrayList<Card> userActive){
         boolean end = false;
         int numberCheck = 0;
@@ -285,6 +281,8 @@ public class PokemonGame {
 
 
 //-------------------------------------------------------------------------------------------------------------Player Move Methods-----------------------------------------------------------------------------------------------------------------------------------
+
+    //This is the method that allows the user to attack their opponent
     public boolean attack(ArrayList<Card> userAttacker, ArrayList<Card> userDefender, ArrayList<Card> userHand, ArrayList<Card> userPrize){
         Pokemon attacker = ((Pokemon)userAttacker.get(0));
         Pokemon defender = ((Pokemon)userDefender.get(0));
@@ -307,13 +305,14 @@ public class PokemonGame {
         }
        
     }
+
     //Method to Attach Energy
     public int attachEnergy(ArrayList<Card> userActive, ArrayList<Card> userBench, ArrayList<Card> userHand, int energy){
         Scanner select = new Scanner(System.in);
         System.out.println("Would you like to attach energy to your \n 1. Active Pokemon \n 2. Bench Pokemon");
         int choice = select.nextInt();
         switch (choice){
-            case 1:
+            case 1://Case when the player wants to attach an energy to their active pokemon
                 if(userActive != null && !userActive.isEmpty()){               
                         System.out.println("Which Energy would you like to select?");
                         printHand(userHand);
@@ -322,7 +321,7 @@ public class PokemonGame {
                             if(userHand.get(pick-1) instanceof Energy){
                                 ((Pokemon)userActive.get(0)).addEnergy(userHand.get(pick-1));
                                 userHand.remove(pick-1);
-                                energy = 1;
+                                energy = 1;//Prevents player from attaching another energy in their turn
                                 break;
                             }else{
                                 System.out.println("Invalid Selection, Please pick an Energy Card!");
@@ -338,7 +337,7 @@ public class PokemonGame {
                     System.out.println("No Active Pokemon!");
                     break;
                 }   
-            case 2:
+            case 2://Case when the player wants to attach an energy to one of their bench pokemon
                 if(userBench != null && !userBench.isEmpty()){
                     System.out.println("Which Bench Pokemon would you like to select?");
                     System.out.println(printBench(userBench));
@@ -369,7 +368,7 @@ public class PokemonGame {
                     break;
                 }
             default:
-                System.out.println("Invalide Selection!");
+                System.out.println("Invalid Selection!");
 
         }
         return energy;
@@ -383,13 +382,13 @@ public class PokemonGame {
         int pick = select.nextInt();
         if(pick >= 1 && pick <= userHand.size()){
             if(userHand.get(pick-1) instanceof TrainerCard){
-                if(((TrainerCard)userHand.get(pick-1)).getName().equals("Potion")){
+                if(((TrainerCard)userHand.get(pick-1)).getName().equals("Potion")){//Case in which the Trainer card is a Potion
                     System.out.println(((TrainerCard)userHand.get(pick-1)).cardSum());
                     userHand.remove(pick-1);
                     System.out.println("Did you want to heal a \n 1. Active Pokemon? \n 2. Bench Pokemon?");
                     int choose = select.nextInt();
                     switch (choose){
-                        case 1:
+                        case 1://Case if the player wants to use a potion on their Active Pokemon
                             if(userActive != null && !userActive.isEmpty()){
                                 int tempHP = ((Pokemon)userActive.get(0)).getHp();
                                 ((Pokemon)userActive.get(0)).setHp(tempHP+30);
@@ -398,7 +397,7 @@ public class PokemonGame {
                                 System.out.println("No Active Pokemon");
                                 break;
                             }
-                        case 2:
+                        case 2://Case if the player wants to use a potion one of their bench pokemon
                             if(userBench != null && !userBench.isEmpty()){
                                 System.out.println("Which Bench Pokemon would you like to select?");
                                 System.out.println(printBench(userBench));
@@ -414,13 +413,13 @@ public class PokemonGame {
                         default:
                             System.out.println("Invalid Selection!");
                     }
-                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Giant Cape")){
+                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Giant Cape")){//Case in which the trainer card is a Giant Cape
                     System.out.println(((TrainerCard)userHand.get(pick-1)).cardSum());
                     userHand.remove(pick-1);
                     System.out.println("Did you want to heal a \n 1. Active Pokemon? \n 2. Bench Pokemon?");
                     int choose = select.nextInt();
                     switch (choose){
-                        case 1:
+                        case 1://Case in which the player wants to attach the Giant Cape to their Active Pokemon
                             if(userActive != null && !userActive.isEmpty()){
                                 int tempHP = ((Pokemon)userActive.get(0)).getHp();
                                 ((Pokemon)userActive.get(0)).setHp(tempHP+20);
@@ -429,7 +428,7 @@ public class PokemonGame {
                                 System.out.println("No Active Pokemon");
                                 break;
                             }
-                        case 2:
+                        case 2://Case in which the player wants to attach the Giant Cape to one of their Giant Cape to one of their Bench Pokemon
                             if(userBench != null && !userBench.isEmpty()){
                                 System.out.println("Which Bench Pokemon would you like to select?");
                                 System.out.println(printBench(userBench));
@@ -446,7 +445,7 @@ public class PokemonGame {
                         default:
                             System.out.println("Invalid Selection!");
                     }
-                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Nemona")){
+                }else if(((TrainerCard)userHand.get(pick-1)).getName().equals("Nemona")){//Case in which The Player plays the Nemona card
                     System.out.println(((TrainerCard)userHand.get(pick-1)).cardSum());
                     userHand.remove(pick-1);
                     for(int i = 0; i < 3; i++){ 
@@ -470,9 +469,9 @@ public class PokemonGame {
         System.out.println("Would you like to pick from \n 1. Your hand? \n 2. Your Bench?");
         int pick = select.nextInt();
         switch (pick){
-            case 1:
+            case 1://Case in which Player wants to place a Pokemon from their hand into the Active Slot
                 System.out.println("Which Pokemon would you like to play?");
-                while(validChoice == false){
+                while(validChoice == false){//Loops until a valid selection is made
                     int choice = select.nextInt();
                     if(temp.get(choice - 1) instanceof Pokemon){ 
                         if(choice >= 1 && choice <= userHand.size()){
@@ -488,11 +487,11 @@ public class PokemonGame {
                     }
                 }
                 break;
-            case 2:
+            case 2://Case in which the Player wants to place a Pokemon from their Bench into their Active Slot
                 System.out.println("Which Pokemon would you like to play?");
                 if(userBench != null && !userBench.isEmpty()){
                     System.out.println(printBench(userBench));
-                    while(validChoice == false){
+                    while(validChoice == false){//Loops until a valid selection is made
                         int choice = select.nextInt();
                         if(userBench.get(choice - 1) instanceof Pokemon){ 
                             if(choice >= 1 && choice <= userBench.size()){
@@ -529,7 +528,7 @@ public class PokemonGame {
         printHand(userHand);
         System.out.println("Which Pokemon would you like to place into your Bench?");
         boolean validChoice = false;
-        while(validChoice == false){
+        while(validChoice == false){//Loops until a Valid Selection is made
             int choice = select.nextInt() ;
             if(temp.get(choice - 1) instanceof Pokemon){ 
                 if(choice >= 0 && choice <= userHand.size()){
@@ -559,7 +558,7 @@ public class PokemonGame {
         return userBench;
     }
 
-
+    //Method used to print the users bench mainly called in the printBoard() method
     public String printBench(ArrayList<Card> userBench){
         String bench = "";
         int num = 1;
@@ -571,7 +570,7 @@ public class PokemonGame {
     }
 
 
-    //Prints the battleboard (Extra Credit)
+    //Prints the battleboard (Extra Credit) to give a visual representation to the player, meant to replicate the physical game mats played with IRL.
     public void printBoard(ArrayList<Card> userOneBench, ArrayList<Card> userTwoBench, ArrayList<Card> userOneActive, ArrayList<Card> userTwoActive, ArrayList<Card> userOnePrize, ArrayList<Card> userTwoPrize){
         System.out.println("-----------------------------------------------------------------------------\n \n");
         System.out.println("Player 1 Side");
