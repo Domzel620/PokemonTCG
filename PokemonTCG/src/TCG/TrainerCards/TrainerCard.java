@@ -30,10 +30,11 @@ public class TrainerCard extends Card{
     public void setName(String userName){
         trainerName = userName;
     }
-
+    //Give a summary of the Trainer card, including its description
     public String cardSum(){
         return "\n Trainer Type: " + trainerType + "\n Name: " + trainerName + "\n Description: " + abilityDesc;
     }
+    
     @Override
     public String toString(){
         return this.getClass().getSimpleName();

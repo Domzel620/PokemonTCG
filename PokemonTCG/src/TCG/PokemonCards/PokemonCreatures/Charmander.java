@@ -4,7 +4,7 @@ import src.TCG.PokemonCards.Pokemon;
 public class Charmander extends Pokemon {
     
 
-    //Default Pikachu
+    
     public Charmander(){
         setHp(80);
         setType("Fire");

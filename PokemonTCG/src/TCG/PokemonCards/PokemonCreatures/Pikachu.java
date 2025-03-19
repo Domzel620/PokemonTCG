@@ -4,7 +4,7 @@ import src.TCG.PokemonCards.Pokemon;
 
 public class Pikachu extends Pokemon{
 
-    //Default Pikachu
+    
     public Pikachu(){
         setHp(70);
         setType("Electric");
@@ -14,10 +14,5 @@ public class Pikachu extends Pokemon{
         setMove(50, "Electro Ball", "Electric");
         setMoveCost(3);
     }
-
-    //We could make another constructor, one with all the parameters
-
-    //We would want a set of getters and setters
-
 
 }

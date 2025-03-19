@@ -71,9 +71,13 @@ public class Pokemon extends Card{
     }
     
     //Pokemon Methods
+
+    //Gives a summary of the Pokemon, Similar to the typical Pokemon Card format
     public String cardSum(){
         return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage + " Energy Cost: "+ moveCost + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n" + "Attatched Energy: " + energyBank.size();
     }
+
+    //Called in the attack method in PokemonGame.java
     public int useMove(Pokemon one, Pokemon two){
         
         int tempDamage = damage;
@@ -85,10 +89,12 @@ public class Pokemon extends Card{
         return tempDamage;
     }
 
+    //Method used to attach an energy card to this specific pokemon
     public void addEnergy(Card userEnergy){
         energyBank.add(userEnergy);
     }
 
+    //Overrode the toString method to just print out the pokemons name for printing purposes.
     @Override
     public String toString(){
         return this.getClass().getSimpleName();

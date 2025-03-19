@@ -4,7 +4,7 @@ import src.TCG.PokemonCards.Pokemon;
 public class Chimchar extends Pokemon {
     
 
-    //Default Pikachu
+    
     public Chimchar(){
         setHp(70);
         setType("Fire");
