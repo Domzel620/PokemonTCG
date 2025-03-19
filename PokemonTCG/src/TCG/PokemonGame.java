@@ -308,30 +308,32 @@ public class PokemonGame {
        
     }
     //Method to Attach Energy
-    public void attachEnergy(ArrayList<Card> userActive, ArrayList<Card> userBench, ArrayList<Card> userHand){
+    public int attachEnergy(ArrayList<Card> userActive, ArrayList<Card> userBench, ArrayList<Card> userHand, int energy){
         Scanner select = new Scanner(System.in);
         System.out.println("Would you like to attach energy to your \n 1. Active Pokemon \n 2. Bench Pokemon");
         int choice = select.nextInt();
         switch (choice){
             case 1:
-                if(userActive != null && !userActive.isEmpty()){
-                    System.out.println("Which Energy would you like to select?");
-                    printHand(userHand);
-                    int pick = select.nextInt();
-                    if(pick >= 1 && pick <= userHand.size()){
-                        if(userHand.get(pick-1) instanceof Energy){
+                if(userActive != null && !userActive.isEmpty()){               
+                        System.out.println("Which Energy would you like to select?");
+                        printHand(userHand);
+                        int pick = select.nextInt();
+                        if(pick >= 1 && pick <= userHand.size()){
+                            if(userHand.get(pick-1) instanceof Energy){
                                 ((Pokemon)userActive.get(0)).addEnergy(userHand.get(pick-1));
                                 userHand.remove(pick-1);
+                                energy = 1;
                                 break;
                             }else{
                                 System.out.println("Invalid Selection, Please pick an Energy Card!");
                                 break;
                             }
-                        }else{
-                            System.out.println("Invalid Selection, Please pick one of the options listed");
-                            printHand(userHand);
-                            break;
-                        }
+                    }else{
+                        System.out.println("Invalid Selection, Please pick one of the options listed");
+                        printHand(userHand);
+                        break;
+                    }
+                    
                 }else{
                     System.out.println("No Active Pokemon!");
                     break;
@@ -349,6 +351,7 @@ public class PokemonGame {
                             if(userHand.get(energyPick-1) instanceof Energy){
                                 ((Pokemon)userBench.get(benchPick-1)).addEnergy(userHand.get(energyPick-1));
                                 userHand.remove(energyPick-1);
+                                energy = 1;
                                 break;
                             }else{
                                 System.out.println("Invalid Selection, Please pick an Energy Card!");
@@ -369,6 +372,7 @@ public class PokemonGame {
                 System.out.println("Invalide Selection!");
 
         }
+        return energy;
     }
 
     // Method for selecting a trainer card
@@ -607,6 +611,7 @@ public class PokemonGame {
             drawCard(firstHand, firstDeck);
             System.out.println("\nPlayer"+ player +" What is your move: \n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Play Trainer Card \n 8. Pass");
             while(endTurn == false){
+                System.out.println("Player " + player + ": ");
                 int move = turn.nextInt();
                 switch (move){
                     case 1:
@@ -640,21 +645,18 @@ public class PokemonGame {
                         }else{
                             System.out.println("Active Spot is Empty!");
                             break;
-                        }
+                        }    
                         
-                        
-                    case 2:
-                    // Call Attach Energy Method
-                    if(energy ==0){
-                        attachEnergy(firstActive, firstBench, firstHand);
-                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
-                        energy = 1;
-                    }else{
-                        System.out.println("Already Attatched an Energy this turn!");
-                    }
+                    case 2:// Call Attach Energy Method              
+                            if(energy == 0){//attach energy will return energy = 1 if energy is successfully attached, this ensures only one energy is attached per turn
+                                energy = attachEnergy(firstActive, firstBench, firstHand, energy);
+                                    System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
+                                }else{
+                                System.out.println("Already Attatched an Energy this turn!");
+                            }
                         break;
-                    case 3:
-                    // Call Place Active Pokemon Method
+
+                    case 3:// Call Place Active Pokemon Method
                             if(firstActive.size() > 0){
                                 System.out.println("Active Slot full please pick another option!");
                                 break;
@@ -665,8 +667,8 @@ public class PokemonGame {
                                 System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                                 break;
                             }
-                    case 4:
-                    //Call Place Bench Pokemon Method
+
+                    case 4://Call Place Bench Pokemon Method
                         if(firstBench.size() > 6){
                             System.out.println("Bench Full,pick another option!");
                             break;
@@ -674,18 +676,18 @@ public class PokemonGame {
                             firstBench = placeBench(firstHand, firstBench);
                             printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
                         }
-                    case 5:
-                    // Call printBoard Method
+
+                    case 5:// Call printBoard Method
                     printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
-                    //Calls printHand Method
-                    case 6:
+                    
+                    case 6://Calls printHand Method
                         printHand(firstHand);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
-                    case 7:
-                    //Call Trainer Method
+
+                    case 7://Call Trainer Method
                         if(train == 0){
                             trainerCards(firstHand, firstBench, firstActive, firstDeck);
                             train = 1;
@@ -693,7 +695,8 @@ public class PokemonGame {
                             System.out.println("Already played a Trainer Card this turn!");
                         }
                         break;
-                    case 8:
+
+                    case 8://Passes turn
                         System.out.println("You passed your turn!");
                         endTurn = true;
                         break;
