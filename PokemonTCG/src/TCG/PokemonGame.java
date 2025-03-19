@@ -571,9 +571,9 @@ public class PokemonGame {
 
 
     //Prints the battleboard (Extra Credit) to give a visual representation to the player, meant to replicate the physical game mats played with IRL.
-    public void printBoard(ArrayList<Card> userOneBench, ArrayList<Card> userTwoBench, ArrayList<Card> userOneActive, ArrayList<Card> userTwoActive, ArrayList<Card> userOnePrize, ArrayList<Card> userTwoPrize){
+    public void printBoard(ArrayList<Card> userOneBench, ArrayList<Card> userTwoBench, ArrayList<Card> userOneActive, ArrayList<Card> userTwoActive, ArrayList<Card> userOnePrize, ArrayList<Card> userTwoPrize, int player, int player2){
         System.out.println("-----------------------------------------------------------------------------\n \n");
-        System.out.println("Player 1 Side");
+        System.out.println("Player " + player + " Side");
         System.out.println("Prize Cards: " + userOnePrize.size());
         System.out.println("\nBENCH: " + printBench(userOneBench)+ "\n");
         if(userOneActive != null && !userOneActive.isEmpty()){
@@ -591,7 +591,7 @@ public class PokemonGame {
         }
         System.out.println("\n BENCH: " + printBench(userTwoBench)+ "\n");
         System.out.println("Prize Cards: " + userTwoPrize.size());
-        System.out.println("Player 2 Side");
+        System.out.println("Player " + player2 +" Side");
         System.out.println("\n \n-----------------------------------------------------------------------------");
 
     }
@@ -599,9 +599,9 @@ public class PokemonGame {
 //-----------------------------------------------------------------------------------------Player Turns-----------------------------------------------------------------------------------------------------------------------------------------
 
     //Code for when Player 1 wins the coinflip
-    public void playerOneFirst(ArrayList<Card> firstDeck, ArrayList<Card> firstHand, ArrayList<Card> firstActive, ArrayList<Card> firstBench, ArrayList<Card> firstPrize, ArrayList<Card> firstDiscard, ArrayList<Card> secondDiscard, ArrayList<Card> secondActive, ArrayList<Card> secondBench, ArrayList<Card> secondPrize, int player){
+    public void playerOneFirst(ArrayList<Card> firstDeck, ArrayList<Card> firstHand, ArrayList<Card> firstActive, ArrayList<Card> firstBench, ArrayList<Card> firstPrize, ArrayList<Card> firstDiscard, ArrayList<Card> secondDiscard, ArrayList<Card> secondActive, ArrayList<Card> secondBench, ArrayList<Card> secondPrize, int player, int player2){
         Scanner turn = new Scanner(System.in);
-        printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+        printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize, player, player2);
           
             boolean endTurn = false;
             int energy = 0;
@@ -660,8 +660,8 @@ public class PokemonGame {
                                 System.out.println("Active Slot full please pick another option!");
                                 break;
                             } else{
-                                oneActive = placeActive(firstHand, firstActive, firstBench);
-                                printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+                                firstActive = placeActive(firstHand, firstActive, firstBench);
+                                printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize, player, player2);
                                 System.out.println("You placed a Pokemon. What else would you like to do?");
                                 System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                                 break;
@@ -673,11 +673,11 @@ public class PokemonGame {
                             break;
                         } else{
                             firstBench = placeBench(firstHand, firstBench);
-                            printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+                            printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize, player, player2);
                         }
 
                     case 5:// Call printBoard Method
-                    printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+                    printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize, player, player2);
                         System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
                     
@@ -693,6 +693,7 @@ public class PokemonGame {
                         }else{
                             System.out.println("Already played a Trainer Card this turn!");
                         }
+                        System.out.println("\n 1. Attack \n 2. Attach Energy \n 3. Place an Active Pokemon \n 4. Place a Bench Pokemon \n 5. Print Board \n 6. Show Hand \n 7. Trainer Cards\n 8. Pass");
                         break;
 
                     case 8://Passes turn
@@ -704,7 +705,7 @@ public class PokemonGame {
                         
                 }
             }
-            printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
+            //printBoard(firstBench, secondBench, firstActive, secondActive, firstPrize, secondPrize);
             endCheck = gameOver();
             
     }
@@ -734,15 +735,15 @@ public class PokemonGame {
             System.out.println("Player 1 is up first!");
             boolean cont = gameOver();
             while(cont == false){
-                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1);
-                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize,2);
+                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1, 2);
+                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize,2, 1);
             }
         }else if(playOrder == false){
             System.out.println("Player 2 is up first!");
             boolean cont = gameOver();
             while(cont == false){
-                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize, 2);
-                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1);
+                playerOneFirst(playerTwoDeck, twoHand, twoActive, twoBench, twoPrize, twoDiscard, oneDiscard, oneActive, oneBench, onePrize, 2, 1);
+                playerOneFirst(playerOneDeck, oneHand, oneActive, oneBench, onePrize, oneDiscard, twoDiscard, twoActive, twoBench, twoPrize, 1, 2);
             }
         }
     }

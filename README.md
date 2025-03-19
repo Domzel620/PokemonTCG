@@ -25,4 +25,3 @@ Pokemon.java contains files that represent the basic Pokemon cards.
 The TrainerCards Folder contains the TrainerCardType folder and TrainerCard.java. 
 TrainerCard.java inherits Card.java, and the files within the TrainerCardType folder inherit TrainerCard.java.
 The Files in the TrainerCardType folder contains the files that represent Trainer Cards from TCG.
-

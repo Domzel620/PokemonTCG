@@ -74,7 +74,7 @@ public class Pokemon extends Card{
 
     //Gives a summary of the Pokemon, Similar to the typical Pokemon Card format
     public String cardSum(){
-        return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage + " Energy Cost: "+ moveCost + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n" + "Attatched Energy: " + energyBank.size();
+        return "\n Pokemon: " + this.getClass().getSimpleName() + "\n HP: " + hp + "  Type: " + type + "\n Moves: " + moveName + " " + moveType + " " + damage+ " Damage," + " Energy Cost: "+ moveCost + "\n Retreat Cost: " + retreat + " Weakness: " + weakness + "\n" + "Attatched Energy: " + energyBank.size();
     }
 
     //Called in the attack method in PokemonGame.java
