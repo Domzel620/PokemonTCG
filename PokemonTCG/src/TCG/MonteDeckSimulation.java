@@ -31,16 +31,16 @@ public class MonteDeckSimulation {
                 }else
                     e++;
                 }
-                //System.out.println("\n" + "Monte Deck " + i + " contains: ");
-                //System.out.println("Pokemon: " + p);
-                //System.out.println("Energy: " + e);
+                System.out.println("\n" + "Monte Deck " + i + " contains: ");
+                System.out.println("Pokemon: " + p);
+                System.out.println("Energy: " + e);
                 game.shuffleDeck(monteDeck);
-                monteHand(monteDeck);
+                System.out.println("It draws a mulligan " + monteHand(monteDeck)+"% of the time");
                 //create a check hand method instead that can be called in drawhand. Is not looping properly rn in drawhand
                 //it only checks once and moves on
         }           
     }
-    public void monteHand(ArrayList<Card> monteDeck){
+    public double monteHand(ArrayList<Card> monteDeck){
         double mulligan;
         double p = 0;
         double e = 0;
@@ -68,11 +68,11 @@ public class MonteDeckSimulation {
                 game.shuffleDeck(monteDeck);
            }
         }
-        mulligan = (e/10000);
+        mulligan = e/10000*100;
         //System.out.println("Hands containing Pokemon: " + p);
         //System.out.println("Hands NOT containing Pokemon: " + e);
         //System.out.println("A mulligan occurred " + mulligan + "% of the time.");
-        System.out.println(mulligan);
+        return mulligan;
     }
     public boolean monteCheckHand(ArrayList<Card> monteDeck, ArrayList<Card> userHand){
         for (Card card : hand) {
