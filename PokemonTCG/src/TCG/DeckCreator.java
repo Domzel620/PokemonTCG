@@ -8,8 +8,7 @@ import src.TCG.PokemonCards.Pokemon;
 import src.TCG.PokemonCards.PokemonCreatures.*;
 import src.TCG.TrainerCards.TrainerCardTypes.RareCandy;
 import src.TCG.PokemonGame;
-import src.TCG.TrainerCards.TrainerCardTypes.GiantCape;
-import src.TCG.TrainerCards.TrainerCardTypes.Potion;
+import src.TCG.TrainerCards.TrainerCardTypes.*;
 
 
 public class DeckCreator {
